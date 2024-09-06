@@ -7,7 +7,7 @@ const Dashboard = () => {
   const [selectedFarmer, setSelectedFarmer] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
-  const chartRefs = useRef([]);  // Array to store chart instances
+  const chartRef = useRef(null);  // Single chart reference
 
   const farmers = [
     { id: '1', farmerName: 'M.R Sirisena', containerNumber: 'hodsgch', date: '2024-08-05', grnNumber: 'hdg', noOfBoxes: 5, trays: 5, weights: [50.15, 55.36, 105.36], total: 210.87, category: 'Guava', disposal: 6.25, goodContent: 202.62, unitPrice: 300 },
@@ -15,7 +15,6 @@ const Dashboard = () => {
     { id: '3', farmerName: 'MR Sirisena', containerNumber: '1', date: '2023-12-22', grnNumber: '123', noOfBoxes: 2, trays: 4, weights: [12.25, 21.42, 30.56, 24.25, 21.96], total: 110.44, category: 'Guava', disposal: 12.25, goodContent: 90.19, unitPrice: 340.75 }
   ];
 
-  // Filter logic based on selected farmer, category, and date
   const filteredFarmers = farmers.filter((farmer) => {
     const matchesFarmer = selectedFarmer ? farmer.farmerName === selectedFarmer : true;
     const matchesCategory = selectedCategory ? farmer.category === selectedCategory : true;
@@ -24,55 +23,93 @@ const Dashboard = () => {
     return matchesFarmer && matchesCategory && matchesDate;
   });
 
-  // Event handlers
   const handleFarmerSelect = (event) => setSelectedFarmer(event.target.value);
   const handleCategorySelect = (event) => setSelectedCategory(event.target.value);
   const handleDateChange = (event) => setSelectedDate(event.target.value);
 
-  // Clean up the chart instances before re-rendering
+  // Clean up and update chart whenever the filtered farmers change
   useEffect(() => {
-    chartRefs.current.forEach((chartInstance) => {
-      if (chartInstance) {
-        chartInstance.destroy();
-      }
-    });
-    chartRefs.current = []; // Reset chart refs to avoid memory leak
+    if (chartRef.current) {
+      chartRef.current.destroy();
+    }
 
-    farmers.forEach((farmer, index) => {
-      const ctx = document.getElementById(`chart-${index}`).getContext('2d');
-      
-      const chartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: [farmer.farmerName],
-          datasets: [
-            { label: 'Total', data: [farmer.total], backgroundColor: 'lightblue' },
-            { label: 'Good Content', data: [farmer.goodContent], backgroundColor: 'lightgreen' },
-            { label: 'Disposal', data: [farmer.disposal], backgroundColor: 'red' }
-          ]
+    const ctx = document.getElementById('main-chart').getContext('2d');
+
+    const farmerNames = filteredFarmers.map(farmer => farmer.farmerName);
+    const totals = filteredFarmers.map(farmer => farmer.total);
+    const goodContents = filteredFarmers.map(farmer => farmer.goodContent);
+    const disposals = filteredFarmers.map(farmer => farmer.disposal);
+
+    const chartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: farmerNames,
+        datasets: [
+          { label: 'Total', data: totals, backgroundColor: 'lightblue' },
+          { label: 'Good Content', data: goodContents, backgroundColor: 'lightgreen' },
+          { label: 'Disposal', data: disposals, backgroundColor: 'red' }
+        ]
+      },
+      options: {
+        responsive: true,
+        aspectRatio: 3.0, // Adjusted for larger chart with wider distribution
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              font: {
+                size: 7 // Smaller font size for the legend labels
+              }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(tooltipItem) {
+                const index = tooltipItem.dataIndex;
+                const farmer = filteredFarmers[index];
+                return [
+                  `Total: ${farmer.total}`,
+                  `Good Content: ${farmer.goodContent}`,
+                  `Disposal: ${farmer.disposal}`
+                ];
+              }
+            }
+          }
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true,  // Maintain the default aspect ratio
-          scales: {
-            y: {
-              beginAtZero: true
+        scales: {
+          x: {
+            ticks: {
+              font: {
+                size: 14 // Smaller font size for x-axis labels
+              }
+            },
+            grid: {
+              display: false // Optional: Hide x-axis grid lines for better readability
+            },
+            barPercentage: 0.6, // Make bars narrower
+            categoryPercentage: 0.5 // Increase the spacing between categories for wider distribution
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              font: {
+                size: 13 // Smaller font size for y-axis labels
+              }
             }
           }
         }
-      });
-
-      // Store chart instance to destroy it later if necessary
-      chartRefs.current.push(chartInstance);
+      }
     });
-  }, [farmers]); // Only re-run this effect when filteredFarmers change
+
+    chartRef.current = chartInstance;
+  }, [filteredFarmers]);
 
   return (
     <div className="dashboardPage-container">
       <Header />
       <div className="filter-row">
         <div className="dropdown-container">
-          {/* Farmer Dropdown */}
           <select id="farmer-select" value={selectedFarmer} onChange={handleFarmerSelect}>
             <option value="">Select Farmer</option>
             {farmers.map((farmer) => (
@@ -82,7 +119,6 @@ const Dashboard = () => {
             ))}
           </select>
 
-          {/* Category Dropdown */}
           <select id="category-select" value={selectedCategory} onChange={handleCategorySelect}>
             <option value="">Select Category</option>
             {[...new Set(farmers.map(farmer => farmer.category))].map((category, index) => (
@@ -92,7 +128,6 @@ const Dashboard = () => {
             ))}
           </select>
 
-          {/* Date Picker */}
           <input
             type="date"
             id="date-picker"
@@ -102,37 +137,53 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Chart container */}
+      {/* Main chart container */}
       <div className="chart-container">
-        {filteredFarmers.map((farmer, index) => (
-          <div key={farmer.id} className="chart-box">
-            <canvas id={`chart-${index}`}></canvas>
-            {/* Tooltip */}
-            <div className="tooltip-box">
-              <strong>{farmer.farmerName}</strong><br />
-              Total: {farmer.total}<br />
-              Good Content: {farmer.goodContent}<br />
-              Disposal: {farmer.disposal}
-            </div>
-          </div>
-        ))}
+        <div className="chart-box">
+          <canvas id="main-chart"></canvas>
+        </div>
       </div>
 
-      {/* Legend */}
-      <div className="legend-container">
-        <div className="legend-item">
-          <div className="legend-color legend-total"></div>
-          <span>Total</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-color legend-good"></div>
-          <span>Good Content</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-color legend-disposal"></div>
-          <span>Disposal</span>
-        </div>
-      </div>
+      {filteredFarmers.length > 0 ? (
+        <table>
+          <thead>
+            <tr>
+              <th>Farmer Name</th>
+              <th>Container Number</th>
+              <th>Date</th>
+              <th>GRN Number</th>
+              <th>Category</th>
+              <th>No of Boxes</th>
+              <th>Total Weight</th>
+              <th>Trays</th>  {/* Add this new column header */}
+              <th>Weights</th>  {/* Add this new column header */}
+              <th>Disposal</th>  {/* Add this new column header */}
+              <th>Good Content</th>  {/* Add this new column header */}
+              <th>Unit Price</th>  {/* Add this new column header */}
+            </tr>
+          </thead>
+          <tbody>
+            {filteredFarmers.map((farmer) => (
+              <tr key={farmer.id}>
+                <td>{farmer.farmerName}</td>
+                <td>{farmer.containerNumber}</td>
+                <td>{farmer.date}</td>
+                <td>{farmer.grnNumber}</td>
+                <td>{farmer.category}</td>
+                <td>{farmer.noOfBoxes}</td>
+                <td>{farmer.total}</td>
+                <td>{farmer.trays}</td> {/* Add this new column data */}
+                <td>{farmer.weights.join(', ')}</td> {/* Display weights as comma-separated string */}
+                <td>{farmer.disposal}</td>  {/* Add this new column data */}
+                <td>{farmer.goodContent}</td>  {/* Add this new column data */}
+                <td>{farmer.unitPrice}</td>  {/* Add this new column data */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+         <p>No farmers found matching the selected filters.</p>
+        )}      
     </div>
   );
 };
