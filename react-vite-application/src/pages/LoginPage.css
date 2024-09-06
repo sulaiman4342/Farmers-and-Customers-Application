@@ -1,0 +1,80 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #024075, #0293d6); /* Blue gradient background */
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .login-form {
+    background-color: #f5f5f5; /* Light grey background for the form */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 350px;
+  }
+  
+  .logo {
+    width: 250px;
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+    margin-bottom: 30px;
+    color: #333; /* Dark text color */
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  button {
+    background-color: #3865e0; 
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+
+  .input-icon i {
+    color: #333; /* Icon color */
+    margin-right: 10px;
+    font-size: 16px; /* Adjust icon size */
+  }
+  .input-for-password{
+    padding: 5px;
+    width:250px;
+  }
+  
+  .input-for-username{
+    padding: 5px;
+    width: 100px;
+  }

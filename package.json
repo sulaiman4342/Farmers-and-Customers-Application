@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "qrcode.react": "^4.0.1",
+    "react-chartjs-2": "^5.2.0",
+    "react-router-dom": "^6.26.1",
+    "recharts": "^2.12.7"
+  }
+}

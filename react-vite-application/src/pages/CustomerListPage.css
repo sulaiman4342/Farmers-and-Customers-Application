@@ -1,0 +1,202 @@
+ 
+  .customer-list-container {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Search Bar Styles */
+  .search-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+  }
+  
+  .search-bar input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+    margin-right: 10px;
+  }
+  
+  .search-bar button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .search-bar button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Table Styles */
+  .table-container {
+    overflow-x: auto;
+  }
+  h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #000000;
+  }
+
+  .table-container {
+    background-color: white; /* Ensure the table's background remains white */
+    padding: 5px;
+    border-radius: 8px; /* Add rounded corners to the table container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a slight shadow for better visibility */
+}
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0px;
+  }
+  
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    color: rgb(0, 0, 0);
+  }
+  
+  button {
+    background-color: #f6f7f6;
+    color: #333;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #e2e2e2;
+  }
+  
+  /* QR Section */
+  .qr-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    justify-content: center;
+  }
+  
+  .btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 40px;
+  }
+  
+  .download-print-btns {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin-right: 15px;
+}
+  
+  .download-print-btns:hover {
+    background-color: #45a049;
+  }
+  .blur-background {
+    filter: blur(5px);
+  }
+  
+  /* Modal Styles */  
+  .modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+  }
+  
+  .modal-content {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    padding: 1.5rem;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+  
+  
+  /* Form Styles */
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .input-field {
+    padding:  0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+  
+  .button-group {
+  display: flex;
+  justify-content: flex-end;
+  }
+
+  .submit-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  margin-right: 1rem;
+  }
+
+  .submit-btn:hover {
+  background-color: #45a049;
+  }
+
+  .cancel-btn {
+  background-color: #ed1212;
+  color: #f2f2f2;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  }
+
+  .cancel-btn:hover {
+  background-color: red;
+  }
+  

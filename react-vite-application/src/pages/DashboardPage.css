@@ -1,0 +1,130 @@
+.dashboardPage-container {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    overflow-x: hidden; /* Ensures no horizontal overflow for the entire container */
+  }
+  
+  .filter-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-right: 30px;
+  }
+  
+  .dropdown-container {
+    display: flex;
+    gap: 15px; /* Space between the dropdowns and date picker */
+  }
+  
+  #farmer-select, #category-select, #date-picker {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  #farmer-select:focus, #category-select:focus, #date-picker:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+
+  .farmer-details {
+    width: auto;
+    margin-right: 30px;
+    margin-left: 30px;
+    background-color: #f2f2f2;
+    overflow-x: auto; /* Allows table to scroll horizontally when needed */
+  }
+  
+  .farmer-details table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px; /* Ensures the table doesn't shrink too small on smaller screens */
+    }
+  
+  .farmer-details table, th, td {
+    border: 1px solid #ddd;
+  }
+  
+  .farmer-details th, .farmer-details td {
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .farmer-details th {
+    background-color: #f2f2f2;
+  }
+  
+  @media (max-width: 768px) {
+    /* For smaller screens, adjust layout */
+    .filter-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .dropdown-container {
+      flex-direction: column;
+    }
+  
+    #farmer-select, #category-select, #date-picker {
+      width: 100%;
+    }
+  }
+
+  .chart-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-evenly;
+  }
+  
+  .chart-box {
+    width: 400px;  /* Set a fixed width for each chart */
+    height: 400px; /* Set a fixed height for each chart */
+    position: relative;
+  }
+  
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  .tooltip-box {
+    margin-top: 10px;
+  }
+  
+  .legend-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+  }
+  
+  .legend-color {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
+  
+  .legend-total {
+    background-color: lightblue;
+  }
+  
+  .legend-good {
+    background-color: lightgreen;
+  }
+  
+  .legend-disposal {
+    background-color: red;
+  }
+  
+  
