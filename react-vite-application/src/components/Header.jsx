@@ -17,8 +17,8 @@ const Header = () => {
           <FontAwesomeIcon icon={isNavVisible ? faTimes : faBars} />
         </button>
         <ul className={`nav-list ${isNavVisible ? 'nav-visible' : ''}`}>
-          <li><a href="#">Dashboard</a></li>
-          <li><a href="#">Registration</a></li>
+          <li><a href="/dashboard">Dashboard</a></li>
+          <li><a href="/registration">Registration</a></li>
           <li><a href="#">Farmers</a></li>
           <li><a href="#">Customers</a></li>
           <li><a href="#">About us</a></li>
