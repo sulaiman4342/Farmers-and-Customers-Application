@@ -4,7 +4,7 @@
   width: auto;
   overflow-x: hidden; /* Ensures no horizontal overflow for the entire container */
 }
-
+ 
 .filter-row {
   display: flex;
   justify-content: flex-end;
@@ -18,7 +18,7 @@
   gap: 15px; /* Space between the dropdowns and date picker */
 }
 
-#farmer-select, #category-select, #date-picker {
+#farmer-select, #category-select, #date-picker, #custmer-select{
   padding: 3px; /* Reduced padding */
   font-size: 16px; /* Smaller font size */
   border: 1px solid #ccc;
@@ -33,31 +33,34 @@
   border-color: #007bff;
 }
 
-.farmer-details {
+.farmer-details, .sales-details {
   width: auto;
   margin-right: 30px;
   margin-left: 30px;
   background-color: #f2f2f2;
   overflow-x: auto; /* Allows table to scroll horizontally when needed */
+  margin-top: 10px;
 }
 
-.farmer-details table {
+.farmer-details table, .sales-details table{
   width: 100%;
   border-collapse: collapse;
   min-width: 800px; /* Ensures the table doesn't shrink too small on smaller screens */
+  
 }
 
-.farmer-details table, th, td {
+.farmer-details table, th, td, .sales-details-table {
   border: 1px solid #ddd;
 }
 
 .farmer-details th, .farmer-details td {
-  padding: 12px;
+  padding: 5px;
   text-align: left;
 }
 
-.farmer-details th {
-  background-color: #f2f2f2;
+.no-farmers-found-message, .no-sales-found-message{
+  color: white;
+  margin-left: 30px;
 }
 
 @media (max-width: 768px) {
@@ -82,7 +85,7 @@
   justify-content: center;
   margin-right: 30px;
   margin-left: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .chart-box {
@@ -91,7 +94,26 @@
   position: relative;
 }
 
+.line-chart-box {
+  width: 1300px;
+  height: 300px; 
+  position: relative;
+}
+
 canvas {
   width: 100% !important;
   height: 100% !important;
 }
+
+.toggle-button { 
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  padding: 7px;
+  border: none;
+  cursor: pointer;
+  margin-top: 0px; /* Add margin to space it from the chart */
+  align-self: flex-start; /* Align the button to the left or adjust as needed */
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+
