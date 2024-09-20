@@ -1,0 +1,38 @@
+.right-form-container {
+    background: #e0f7fa; /* Light cyan background */
+    padding: 20px;
+    border-radius: 8px;
+    width: 45%;
+  }
+  
+  .right-form .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .right-form input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .right-form .add-button,
+  .right-form .submit-button {
+    background: #6200ea;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .weight-buttons button {
+    margin-right: 10px;
+    padding: 10px;
+    background: #2196f3;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  

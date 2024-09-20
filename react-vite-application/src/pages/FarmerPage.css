@@ -1,0 +1,225 @@
+ /* General container for the entire page */
+.farmer-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center align items horizontally */
+  
+}
+
+/* Search bar container */
+.search-bar-container {
+  display: flex;
+  justify-content: flex-end; /* Align to the right */
+  margin-top: 20px;
+  margin-right: 15px;
+  width: 100%; /* Adjust width to fit within the farmer-page-container */
+}
+
+/* Search bar styling */
+.search-bar {
+  width: 40%; /* Adjust width to be smaller */
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.select-button {
+  padding: 8px 12px;
+  border: 0px;
+  background-color:rgb(181, 35, 142);;
+  color:white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.select-button:hover {
+  background-color: #4a0f52;
+}
+
+/* Container for the forms (left and right) */
+.forms-container {
+  display: flex;
+  justify-content: space-between; /* Align left and right forms */
+  gap: 20px; /* Add some space between the forms */
+  padding: 20px;
+  width: 100%; /* Full width */
+}
+
+/* Farmer details form (left side) */
+.farmer-details-form {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 45%; /* Adjust width */
+  align-self: flex-start; /* Align to the left */
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.form-row label {
+  font-size: 14px;
+  width: 40%;
+}
+
+.form-row input {
+  width: 55%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Image styling */
+img {
+  display: block;
+  margin-bottom: 20px;
+  width: 75px;
+  height: 60px;
+}
+
+/* Weight entry form (right side) */
+.weight-form {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 45%; /* Adjust width */
+}
+
+/* Display added weights as cards */
+.weight-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px; /* Add some spacing at the bottom */
+}
+
+.weight-card {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 120px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.weight-card span {
+  font-size: 14px;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 12px;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+/* Form bottom row containing left and right sections */
+.form-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Left section input fields */
+.left-section {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  width: 48%; /* Adjust width */
+}
+
+.left-section .form-row {
+  margin-bottom: 15px;
+}
+
+.left-section input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Submit button styling */
+.submit-button {
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+/* Right section input fields */
+.right-section {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  width: 48%; /* Adjust width */
+}
+
+.right-section .form-row {
+  margin-bottom: 15px;
+}
+
+.right-section input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .forms-container {
+    flex-direction: column; /* Stack forms vertically on smaller screens */
+  }
+
+  .farmer-details-form,
+  .weight-form {
+    width: 100%; /* Full width for forms on smaller screens */
+  }
+
+  .left-section,
+  .right-section {
+    width: 100%; /* Full width for sections on smaller screens */
+  }
+}

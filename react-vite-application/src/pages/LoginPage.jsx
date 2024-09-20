@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { faUserPen, } from '@fortawesome/free-solid-svg-icons/faUserPen';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 import './LoginPage.css';
 
 function LoginPage() {
@@ -23,35 +24,37 @@ function LoginPage() {
       <div className="login-form">
         <img src="/sanota-logo.png" alt="SANOTA Logo" className="logo" />
         <h2>Smart Weighing System</h2>
-          <div className="form-group">
+        <div className="form-group">
+          <div className="input-wrapper">
+            <FontAwesomeIcon icon={faUser} className="input-icon" />
             <input
               type="text"
               id="username"
               name="username"
-              placeholder=" Username" 
+              placeholder="Enter Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              required
-              className='input-for-username'
-        
+              required        
             />
           </div>
-          <div className="form-group">
+        </div>
+        <div className="form-group">
+          <div className="input-wrapper">
+            <FontAwesomeIcon icon={faLock} className="input-icon" />
             <input
               type="password"
               id="password"
               name="password"
-              placeholder=" Password" // Font Awesome lock icon as placeholder
+              placeholder="Enter Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className='input-for-password'
             />
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
           </div>
-          <button type="submit" onClick={handleLogin}>Login</button>
-      
-            
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+        </div>
+
+        <button type="submit" onClick={handleLogin} className='button-login'>Login</button>
         
       </div>
     </div>

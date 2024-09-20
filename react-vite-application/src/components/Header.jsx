@@ -19,7 +19,7 @@ const Header = () => {
         <ul className={`nav-list ${isNavVisible ? 'nav-visible' : ''}`}>
           <li><a href="/dashboard">Dashboard</a></li>
           <li><a href="/registration">Registration</a></li>
-          <li><a href="#">Farmers</a></li>
+          <li><a href="/farmerPage">Farmers</a></li>
           <li><a href="#">Customers</a></li>
           <li><a href="#">About us</a></li>
           <li><a href="#">Logout</a></li>
