@@ -1,38 +1,138 @@
+/* Container for the whole right side form */
 .right-form-container {
-    background: #e0f7fa; /* Light cyan background */
-    padding: 20px;
-    border-radius: 8px;
-    width: 45%;
-  }
-  
-  .right-form .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .right-form input {
-    width: 100%;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  
-  .right-form .add-button,
-  .right-form .submit-button {
-    background: #6200ea;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .weight-buttons button {
-    margin-right: 10px;
-    padding: 10px;
-    background: #2196f3;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
+  background: #e0f7fa; /* Light cyan background */
+  padding: 10px;
+  border-radius: 8px;
+  width: 50%; /* Adjust according to your layout */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 7px;
+}
+
+/* Section for adding weight */
+.form-weight-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+/* Input field for weight */
+.form-weight-section input {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+/* ADD button */
+.add-button {
+  background-color: #6200ea;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.add-button:hover {
+  background-color: #3700b3;
+}
+
+/* Display added weight cards */
+.weight-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 7px;
+}
+
+.weight-card {
+  background-color: #03c4ff;
+  color: rgb(0, 0, 0);
+  padding: 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80px;
+  height: 25px;
+}
+
+
+/* Delete button for weight card */
+.delete-button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Form rows */
+.form-row {
+  margin-bottom: 10px;
+}
+
+.form-row input {
+  width: 80%;
+  padding: 7px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Bottom section layout */
+.form-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Left section */
+.left-section {
+  flex: 1;
+}
+
+.right-section {
+  flex: 1;
+}
+
+/* Adjust the right section's layout */
+.right-section .form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Label styling */
+.right-section label {
+  font-weight: bold;
+  width: 100px; /* Fixed width for labels */
+  margin-right: 10px;
+}
+
+/* Right-side input fields */
+.right-section input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Submit button */
+.submit-button {
+  background-color: #6200ea;
+  color: white;
+  padding: 8px 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100px;
+  border-bottom: 5px;
+}
+
+.submit-button:hover {
+  background-color: #3700b3;
+}

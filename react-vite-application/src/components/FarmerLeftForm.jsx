@@ -5,9 +5,7 @@ import './styles/FarmerLeftForm.css';
 const FarmerLeftForm = ({ farmerData }) => {
   return (
     <div className="left-form-container">
-      <div className="avatar-placeholder">
-        <img src="person icon.png" alt="person-icon" />
-      </div>
+      <img src="person icon.png" alt="person-icon" />      
       <div className="left-form">
         <div className="form-group">
           <label>Full Name:</label>

@@ -1,48 +1,78 @@
 .left-form-container {
-    background: #d7dfe0;
-    padding: 20px;
+    width: 40%;
+    background: #e0f7fa;
+    padding: 8px 12px;
     border-radius: 8px;
-    width: 100%; /* Change to 100% to avoid overflow */
-    max-width: 600px; /* Set a max-width to ensure form isn't too wide */
-    margin: 0 auto;
+    margin: 0 auto ;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.avatar-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Center image within the placeholder */
-    width: 80px;
-    height: 80px;
-    background: #ffffff;
-    border-radius: 50%;
-    margin: 0 auto 20px;
+.left-form-container img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 5px; /* Space between the image and form */
+    object-fit: cover;
 }
 
 .left-form {
+    width: 100%;
     display: flex;
     flex-direction: column;
+    padding: 0; 
+    margin-bottom: 0; 
 }
 
 .left-form .form-group {
-    display: flex; /* Flexbox to align label and input in one row */
-    align-items: center; /* Vertically center label and input */
-    justify-content: space-between; /* Add this to prevent inputs from wrapping */
-    margin-bottom: 15px;
+    display: flex; 
+    flex-direction: row;
+    align-items: center; 
+    justify-content:flex-start;
+    margin-bottom: 5px; 
 }
 
 .left-form label {
-    flex: 0 0 35%; /* Use a fixed width to keep labels aligned */
+    /* flex: 0 0 1px;Use a fixed width to keep labels aligned */
+    align-items: flex-start;
     margin-right: 10px; /* Add some spacing between label and input */
-    font-size: 14px;
-    text-align: right; /* Align text to the right */
+    font-size: 13px;
+    text-align: left; 
 }
 
 .left-form input {
     flex: 1; /* Input takes remaining space */
-    max-width: 250px; /* Adjust max-width to fit inside the form */
-    padding: 5px;
+    max-width: 250px;/* Adjust max-width to fit inside the form */
+    padding: 6px;
     border-radius: 4px;
     border: 1px solid #ccc;
-    font-size: 14px;
+    font-size: 13px;
     box-sizing: border-box;
+}
+/* Ensure labels start from the same position */
+.left-form .form-group label {
+    width: 120px; /* Fixed width for labels */
+}
+
+/* Reduce form height by adjusting paddings and margins */
+.left-form-container{
+    padding: 8px 12px; /* Reduce padding */
+    margin-bottom: 10px; /* Adjust margin for table spacing */
+}
+
+/* Add responsiveness for smaller screens */
+@media (max-width: 768px) {
+    .left-form-container {
+        width: 90%; /* Full width on small screens */
+        margin: 10px auto; /* Add some margin */
+    }
+    
+    .left-form label {
+        flex: 0 0 40%; /* More label width on smaller screens */
+    }
+    
+    .left-form input {
+        max-width: 100%; /* Allow input to fill more space */
+    }
 }

@@ -8,10 +8,10 @@ const FarmerRightForm = ({
   handleWeightChange,
   addWeight,
   removeWeight,
-  setWeightEntry,
+  setWeightEntry
 }) => {
   return (
-    <div className="weight-form">
+    <div className="right-form-container">
       {/* Weight input row */}
       <div className="form-weight-section">
         <input
@@ -40,7 +40,7 @@ const FarmerRightForm = ({
           <div className="form-row">
             <input
               type="text"
-              defaultValue="Enter Vehicle No."
+              placeholder="Vehicle No."
               value={weightEntry.vehicleNo}
               onChange={(e) => setWeightEntry({ ...weightEntry, vehicleNo: e.target.value })}
             />
@@ -48,7 +48,7 @@ const FarmerRightForm = ({
           <div className="form-row">
             <input
               type="text"
-              defaultValue="Enter GRN No."
+              placeholder="GRN No."
               value={weightEntry.grnNumber}
               onChange={(e) => setWeightEntry({ ...weightEntry, grnNumber: e.target.value })}
             />
@@ -56,7 +56,7 @@ const FarmerRightForm = ({
           <div className="form-row">
             <input
               type="number"
-              defaultValue="Crates"
+              placeholder="Crates"
               value={weightEntry.crates}
               onChange={(e) => setWeightEntry({ ...weightEntry, crates: e.target.value })}
             />
