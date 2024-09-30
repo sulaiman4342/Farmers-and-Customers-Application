@@ -21,10 +21,7 @@ const RegistrationPage = () => {
 
     const handleFarmerRegistration = () => {
         navigate('/farmer-registration');
-    };
-
-
-     
+    };    
     
     return (
         <>

@@ -1,0 +1,29 @@
+/* File: src/components/FarmerTable.css */
+
+.table-container {
+    width: 96%;
+    margin: 5px auto ;
+    padding: 5px;
+  }
+  
+  .farmer-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .farmer-table th, .farmer-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .farmer-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  
+  .farmer-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  

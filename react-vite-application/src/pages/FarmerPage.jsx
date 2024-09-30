@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import FarmerLeftForm from "../components/FarmerLeftForm";
 import FarmerRightForm from "../components/FarmerRightForm";
+import FarmerTable from "../components/FarmerTable";
+import SearchBar from "../components/FarmerSearchBar";
 import "./FarmerPage.css";
 
 function FarmerPage() {
@@ -12,7 +14,7 @@ function FarmerPage() {
     contactNumber: "",
     size: "",
     growingArea: "",
-    category: "",
+    category: ""
   });
 
   const [weightEntry, setWeightEntry] = useState({
@@ -68,27 +70,26 @@ function FarmerPage() {
     });
   };
 
+  const tableData = [
+    { farmerName: "M.R. Sirisena", containerNumber: "hcdsgch", grnNumber: "hdg", date: "2024-08-05", totalWeight: 210.87, numberOfCrates: 5, weightDisposal: 8.25 },
+    { farmerName: "M.K. Siripala", containerNumber: "123", grnNumber: "11", date: "2024-01-05", totalWeight: 157.00, numberOfCrates: 4, weightDisposal: 10.25 },
+    { farmerName: "M.R. Sirisena", containerNumber: "1", grnNumber: "123", date: "2023-12-22", totalWeight: 110.44, numberOfCrates: 4, weightDisposal: 12.25 }
+  ];
+
   return (
     <div className="farmer-page-container">
       <Header />
-      {/* Search bar */}
-      <div className="search-bar-container">
-        <input
-          type="text"
-          placeholder="Scan Your QR code or Enter Farmer ID..."
-          value={farmerId}
-          onChange={(e) => setFarmerId(e.target.value)}
-          className="search-bar"
-        />
-        <button onClick={handleSearch} className="select-button">Select</button>
-      </div>
+
+      {/* Search bar extracted as a separate component */}
+      <SearchBar 
+        farmerId={farmerId}
+        setFarmerId={setFarmerId}
+        onSearch={handleSearch}
+      />
 
       {/* Forms Container */}
       <div className="forms-container">
-        {/* Left side farmer details form */}
         <FarmerLeftForm farmerData={farmerData} />
-
-        {/* Right side weight entry form */}
         <FarmerRightForm
           weightEntry={weightEntry}
           bucketWeight={bucketWeight}
@@ -98,6 +99,9 @@ function FarmerPage() {
           setWeightEntry={setWeightEntry}
         />
       </div>
+
+      {/* Farmer Table */}
+      <FarmerTable tableData={tableData} />
     </div>
   );
 }

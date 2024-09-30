@@ -1,0 +1,29 @@
+/* File: src/components/CustomerTable.css */
+
+.table-container {
+    width: 96%;
+    margin: 5px auto ;
+    padding: 5px;
+  }
+  
+  .customer-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .customer-table th, .customer-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .customer-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  
+  .customer-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  

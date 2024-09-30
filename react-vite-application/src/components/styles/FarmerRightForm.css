@@ -1,11 +1,10 @@
 /* Container for the whole right side form */
 .right-form-container {
   background: #e0f7fa; /* Light cyan background */
-  padding: 10px;
+  padding: 10px 20px;
   border-radius: 8px;
   width: 50%; /* Adjust according to your layout */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 7px;
 }
 
 /* Section for adding weight */

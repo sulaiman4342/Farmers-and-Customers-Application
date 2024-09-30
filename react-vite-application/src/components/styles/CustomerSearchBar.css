@@ -1,0 +1,30 @@
+/* File: src/components/CustomerSearchBar.css */
+
+.search-bar-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 90%;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.customer-page-search-bar {
+  width: 300px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.select-button {
+  padding: 8px 16px;
+  background-color: #00796b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.select-button:hover {
+  background-color: #004d40;
+}

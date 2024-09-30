@@ -1,73 +1,91 @@
-.form-container {
-    background-color: #e8f0fe;
-    padding: 10px;
-    border-radius: 20px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    
-  }
-  
-  .form-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 10px   
-  }
-  
-  .form-icon {
-    width: 30px; 
-    height: 30px;
-    margin-right: 10px; 
-    
-  }
-  
-  h2 {
-    margin-top: 10px;
-    font-size: 20px;
-    color: #333;
-    flex-grow: 1;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
-  }
-  
-  input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
+/* Container styling */
+.registration-form-container {
+  background-color: #e8f0fe;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  margin: 0px auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form header styling */
+.form-header {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  margin-bottom: 20px;
+}
+
+/* Icon styling */
+.form-icon {
+  margin-right: 10px;
+  color: #6a0dad;
+}
+
+/* Form heading */
+h2 {
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+}
+
+/* Form group */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Centering and aligning the button container */
+.form-buttons-reg-page{
+  display: flex;
+  justify-content: right; 
+  margin-top: 20px;
+  gap: 20px; 
+}
+
+/* Register button styling */
+.reg-view-button {
+  background-color: #6a0dad;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 150px; 
+  text-align: center;
+}
+
+/* Hover effect */
+.reg-view-button:hover {
+  background-color: #5e0da1; 
+}
+
+/* Making sure that the layout works on smaller screens */
+@media (max-width: 600px) {
   .form-buttons {
-    display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 10px;
   }
-  
+
   .reg-button {
-    background-color: purple;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-bottom: 10px;
+    width: 100%;
   }
-  
-  .reg-button:hover {
-    background-color: #6a0dad; /* Darker purple */
-  }
-  
+}

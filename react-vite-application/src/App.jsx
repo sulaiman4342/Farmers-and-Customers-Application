@@ -8,6 +8,7 @@ import CustomerRegistrationForm from './components/CustomerRegistrationForm';
 import FarmerRegistrationForm from './components/FarmerRegistration';
 import Dashboard from './pages/DashboardPage';
 import FarmerPage from './pages/FarmerPage';
+import CustomerPage from './pages/CustomerPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/farmer-registration" element={<FarmerRegistrationForm />} />
           <Route path="/dashboard" element={<Dashboard/>} />
           <Route path="/farmerPage" element={<FarmerPage />} />
+          <Route path="/customerPage" element={<CustomerPage />} />
         </Routes>
       </div>
     </Router>
