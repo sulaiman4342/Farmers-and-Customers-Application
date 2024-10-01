@@ -1,7 +1,12 @@
+/* Full-width page header */
+.page-header {
+  margin-bottom: 30px;
+}
+
 /* Container styling */
 .registration-form-container {
   background-color: #e8f0fe;
-  padding: 30px;
+  padding: 25px;
   border-radius: 20px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   max-width: 400px;
@@ -13,9 +18,17 @@
 /* Form header styling */
 .form-header {
   display: flex;
+  flex-direction: column; /* Stack icon and heading vertically */
   align-items: center;
-  justify-content: right;
   margin-bottom: 20px;
+  position: relative;
+}
+
+/* Icon container for top-left positioning */
+.icon-container {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 /* Icon styling */
@@ -52,18 +65,19 @@ input[type="text"] {
 }
 
 /* Centering and aligning the button container */
-.form-buttons-reg-page{
+.form-buttons-reg-page {
   display: flex;
-  justify-content: right; 
+  flex-direction: column; /* Stack buttons vertically */
+  align-items: center; /* Center buttons horizontally */
   margin-top: 20px;
-  gap: 20px; 
+  gap: 20px; /* Space between buttons */
 }
 
 /* Register button styling */
 .reg-view-button {
   background-color: #6a0dad;
   color: white;
-  padding: 10px 20px;
+  padding: 5px 20px;
   border: none;
   border-radius: 5px;
   font-size: 16px;
@@ -80,12 +94,10 @@ input[type="text"] {
 
 /* Making sure that the layout works on smaller screens */
 @media (max-width: 600px) {
-  .form-buttons {
-    flex-direction: column;
-    gap: 10px;
+  .form-buttons-reg-page {
+    gap: 10px; /* Space between stacked buttons */
   }
-
-  .reg-button {
+  .reg-view-button {
     width: 100%;
   }
 }

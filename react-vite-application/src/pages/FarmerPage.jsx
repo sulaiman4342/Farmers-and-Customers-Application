@@ -1,6 +1,7 @@
 // File: src/pages/FarmerPage.jsx
 import React, { useState } from "react";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import FarmerLeftForm from "../components/FarmerLeftForm";
 import FarmerRightForm from "../components/FarmerRightForm";
 import FarmerTable from "../components/FarmerTable";
@@ -102,6 +103,8 @@ function FarmerPage() {
 
       {/* Farmer Table */}
       <FarmerTable tableData={tableData} />
+
+      <Footer />
     </div>
   );
 }

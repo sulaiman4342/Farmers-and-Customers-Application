@@ -2,7 +2,7 @@
     background-color: #333;
     color: white;
     padding: 15px;
-    width: 100%; /* Ensure the header spans the entire width of the page */
+    width: 100%; 
     box-sizing: border-box; /* Prevent overflow from padding */
     overflow-x: hidden; /* Prevent horizontal overflow */
   }
@@ -35,7 +35,7 @@
   .nav-list li:last-child a {
     border: 2px solid red;
     padding: 5px 10px;
-    border-radius: 5px; /* Add border-radius for a smoother look */
+    border-radius: 5px; 
     font-weight: bold;
 }
 

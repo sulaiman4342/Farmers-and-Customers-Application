@@ -7,8 +7,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 const CustomerLeftForm = ({ customerData }) => {
   return (
     <div className="left-form-container">
-      <FontAwesomeIcon icon={faUser} size="3x" className="fa-user"/> 
-      
+      <FontAwesomeIcon icon={faUser} size="3x" className="fa-user"/>      
       <div className="left-form">
         <div className="form-group">
           <label>Full Name:</label>

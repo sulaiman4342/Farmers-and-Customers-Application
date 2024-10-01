@@ -4,7 +4,7 @@ import './styles/Footer.css';
 function Footer() {
   return (
     <footer className="footer">
-      <p>Copyright © 2024 SANOTA (pvt)Ltd. All rights Reserved</p>
+      <p>Copyright © 2024 SANOTA (Pvt) Ltd. All rights Reserved.</p>
     </footer>
   );
 }

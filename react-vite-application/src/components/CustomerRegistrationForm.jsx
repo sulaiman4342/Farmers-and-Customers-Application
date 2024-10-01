@@ -3,7 +3,9 @@ import './styles/CustomerRegistrationForm.css';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
-import Header from "./Header";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+
 
 const CustomerRegistrationForm = () => {
     const navigate = useNavigate();
@@ -13,9 +15,16 @@ const CustomerRegistrationForm = () => {
     };
 
     return (
-        <div className="registration-form-container">
+        <>
+            {/* Full-width Header */}
+            <div className="page-header">
+                <Header />
+            </div>
+            <div className="registration-form-container">          
             <div className="form-header">
-                <FontAwesomeIcon icon={faUserPlus} className="form-icon"  size="3x"/>
+                <div className="icon-container">
+                    <FontAwesomeIcon icon={faUserPlus} className="form-icon"  size="3x"/>
+                </div>
                 <h2>Customer Registration</h2>
             </div>
             <form>
@@ -40,7 +49,9 @@ const CustomerRegistrationForm = () => {
                     <button type="button" className="reg-view-button">View</button>
                 </div>
             </form>
-        </div>
+            <Footer />
+            </div>
+        </>    
     );
 };
 

@@ -7,8 +7,7 @@ import './styles/FarmerLeftForm.css';
 const FarmerLeftForm = ({ farmerData }) => {
   return (
     <div className="left-form-container">
-      {/* <img src="person icon.png" alt="person-icon" />       */}
-      <FontAwesomeIcon icon={faUser} size="3x" />  
+      <FontAwesomeIcon icon={faUser} size="3x" />
       <div className="left-form">
         <div className="form-group">
           <label>Full Name:</label>
@@ -46,7 +45,7 @@ FarmerLeftForm.propTypes = {
     contactNumber: PropTypes.string,
     size: PropTypes.string,
     growingArea: PropTypes.string,
-    category: PropTypes.string, //can use PropTypes.oneOf for  category if they should only have specific values.
+    category: PropTypes.string,
   }).isRequired,
 };
 

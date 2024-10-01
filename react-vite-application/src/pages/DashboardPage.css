@@ -111,9 +111,21 @@ canvas {
   padding: 7px;
   border: none;
   cursor: pointer;
-  margin-top: 0px; /* Add margin to space it from the chart */
-  align-self: flex-start; /* Align the button to the left or adjust as needed */
+  margin-top: 0px; 
+  align-self: flex-start; 
   margin-left: 5px;
   margin-bottom: 10px;
+}
+
+.toggle-button-bottom{
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  padding: 7px;
+  border: none;
+  cursor: pointer;
+  margin-top: 0px; 
+  align-self: flex-start; 
+  margin-left: 5px;
+  margin-bottom: 45px;
 }
 

@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import './RegistrationPage.css';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
-import CustomerRegistrationForm from '../components/CustomerRegistrationForm'
-import FarmerRegistrationForm from '../components/FarmerRegistration'
+import Footer from '../components/Footer';
 
 
 const RegistrationPage = () => {
@@ -28,14 +27,15 @@ const RegistrationPage = () => {
             <Header />
             <div className='registration-container'>
                 <div className='button-container'>
-                    <button className="reg-button" onClick={handleCustomerRegistration}>
+                    <button className="regis-button" onClick={handleCustomerRegistration}>
                         Customer Registration
                     </button>
-                    <button className="reg-button" onClick={handleFarmerRegistration}>
+                    <button className="regis-button" onClick={handleFarmerRegistration}>
                         Farmer Registration
                     </button>
-                    <button className="reg-button">Daily Prices</button>
-                </div>                
+                    <button className="regis-button">Daily Prices</button>
+                </div>
+                <Footer />            
             </div>
         </>
     );

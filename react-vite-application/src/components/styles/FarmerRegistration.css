@@ -2,9 +2,10 @@
     background-color: #e8f0fe;
     padding: 40px;
     border-radius: 20px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     max-width: 400px;
-    margin: auto;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 30px;
   }
   
   .form-header {

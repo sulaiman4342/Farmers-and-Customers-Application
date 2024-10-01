@@ -1,6 +1,7 @@
 // File: src/pages/CustomerPage.jsx
 import React, { useState } from "react";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import CustomerSearchBar from "../components/CustomerSearchBar";
 import CustomerLeftForm from "../components/CustomerLeftForm";
 import CustomerRightForm from "../components/CustomerRightForm";
@@ -59,6 +60,7 @@ function CustomerPage() {
       <div className="table-container">
         <CustomerTable tableData={customerTableData} />      
       </div>
+      <Footer/>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './DashboardPage.css';
 import Header from '../components/Header';
 import { Chart } from 'chart.js/auto'; // Importing Chart.js for bar charts
+import Footer from '../components/Footer';
 
 const Dashboard = () => {
   const [selectedFarmer, setSelectedFarmer] = useState('');
@@ -330,7 +331,7 @@ const Dashboard = () => {
         </div>
       </div>
       
-      <button className='toggle-button' onClick={toggleSaleTableVisibility}>
+      <button className='toggle-button-bottom' onClick={toggleSaleTableVisibility}>
       {isSaleTableVisible ? 'Hide Table' : 'Show Table'}
       </button>
 
@@ -368,6 +369,8 @@ const Dashboard = () => {
       ) : (
         isSaleTableVisible && filteredSales.length === 0 && <p className='no-sales-found-message'>No sales found matching the selected filters.</p>
         )}
+
+      <Footer />
     </div>
   );
 };
