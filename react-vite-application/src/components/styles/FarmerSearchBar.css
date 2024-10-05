@@ -1,4 +1,4 @@
-/* Search bar container */
+
 .search-bar-container {
     display: flex;
     justify-content: flex-end;
@@ -7,7 +7,7 @@
     margin-top: 15px;
   }
   
-  /* Search bar */
+ 
   .farmer-page-search-bar {
     width: 300px; 
     padding: 8px; 
@@ -16,7 +16,7 @@
     margin-right: 10px;
     }
   
-  /* Select button */
+  
   .select-button {
     padding: 8px 16px;
     background-color: #00796b;
@@ -27,7 +27,7 @@
     margin-bottom: 0; 
   }
   
-  /* Button hover state */
+
   .select-button:hover {
     background-color: #004d40;
   }

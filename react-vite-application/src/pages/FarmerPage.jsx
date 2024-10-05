@@ -104,7 +104,6 @@ function FarmerPage() {
       {/* Farmer Table */}
       <FarmerTable tableData={tableData} />
 
-      <Footer />
     </div>
   );
 }

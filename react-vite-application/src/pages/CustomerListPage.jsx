@@ -121,7 +121,7 @@ function CustomerList() {
         <h2>Customer List</h2>
 
         {/* Search Bar */}
-        <div className="search-bar">
+        <div className="search-bar-customer-page">
           <input
             type="text"
             placeholder="Search Customer"
@@ -171,7 +171,7 @@ function CustomerList() {
         </div>
 
         {isQrVisible && (
-          <div className="qr-section">
+          <div className={`qr-section ${isQrVisible ? 'visible':''}`}>
             <QRCode
               id="qrCanvas"
               value={qrData}
@@ -249,7 +249,6 @@ function CustomerList() {
           </div>
         </div>
       )}
-      <Footer />
     </div>
   );
 }

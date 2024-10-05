@@ -34,9 +34,9 @@ const RegistrationPage = () => {
                         Farmer Registration
                     </button>
                     <button className="regis-button">Daily Prices</button>
-                </div>
-                <Footer />            
+                </div>           
             </div>
+            
         </>
     );
 };

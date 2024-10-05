@@ -1,5 +1,5 @@
 import React from "react";
-import './styles/CustomerRegistrationForm.css';
+import './CustomerRegistrationForm.css';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
@@ -49,7 +49,6 @@ const CustomerRegistrationForm = () => {
                     <button type="button" className="reg-view-button">View</button>
                 </div>
             </form>
-            <Footer />
             </div>
         </>    
     );

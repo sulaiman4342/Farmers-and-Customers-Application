@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQrcode, faPenToSquare, faDownload, faPrint,faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faQrcode, faPenToSquare, faDownload, faPrint, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './FarmersListPage.css';
 import QRCode from 'react-qr-code';
 import Header from '../components/Header';
@@ -10,7 +10,7 @@ import Footer from '../components/Footer';
 const farmersData = [
   { id: 'F001', firstName: 'John', lastName: 'Doe', idNumber: '789456123V', contactNumber: '0771234567', growingArea: 'Area 1', fieldSize: '2 Acres', fruitCategory: 'Apple' },
   { id: 'F002', firstName: 'Jane', lastName: 'Smith', idNumber: '789456124V', contactNumber: '0771234568', growingArea: 'Area 2', fieldSize: '3 Acres', fruitCategory: 'Orange' },
-  { id: 'F003', firstName: 'Saman', lastName: 'Gamage', idNumber: '651784659V', contactNumber: '0771234567', growingArea: 'Area3', fieldSize: '2 Acres', fruitCategory: 'Guava' }
+  { id: 'F003', firstName: 'Saman', lastName: 'Gamage', idNumber: '651784659V', contactNumber: '0771234567', growingArea: 'Area 3', fieldSize: '2 Acres', fruitCategory: 'Guava' }
 ];
 
 function FarmerList() {
@@ -21,11 +21,10 @@ function FarmerList() {
   const [farmers, setFarmers] = useState(farmersData);
   const [searchTerm, setSearchTerm] = useState('');
 
-
   const generateQrCode = (farmer) => {
     const qrString = `ID: ${farmer.id}, Name: ${farmer.firstName} ${farmer.lastName}, Contact: ${farmer.contactNumber}, Growing Area: ${farmer.growingArea}, Field Size: ${farmer.fieldSize}, Fruit Category: ${farmer.fruitCategory}`;
     setQrData(qrString);
-    setIsQrVisible(true);
+    setIsQrVisible(true); // Show the QR code section
   };
 
   const downloadQR = () => {
@@ -176,25 +175,29 @@ function FarmerList() {
             </tbody>
           </table>
         </div>
-        {isQrVisible && (
-          <div className="qr-section">
-            <QRCode
-              id="qrCanvas"
-              value={qrData}
-              size={128}
-              bgColor="#ffffff"
-              fgColor="#000000"
-            />
-            <div className="btn-container">
-              <button onClick={downloadQR} className="download-print-btns">
-                <FontAwesomeIcon icon={faDownload} />
-              </button>
-              <button onClick={printQR} className="download-print-btns">
-                <FontAwesomeIcon icon={faPrint} />
-              </button>
-            </div>
-          </div>
-        )}
+
+        {/* QR Code Section with space allocated */}
+        <div className={`qr-section ${isQrVisible ? 'visible' : ''}`}>
+          {isQrVisible && (
+            <>
+              <QRCode
+                id="qrCanvas"
+                value={qrData}
+                size={128}
+                bgColor="#ffffff"
+                fgColor="#000000"
+              />
+              <div className="btn-container">
+                <button onClick={downloadQR} className="download-print-btns">
+                  <FontAwesomeIcon icon={faDownload} />
+                </button>
+                <button onClick={printQR} className="download-print-btns">
+                  <FontAwesomeIcon icon={faPrint} />
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       {isModalOpen && selectedFarmer && (
@@ -287,7 +290,7 @@ function FarmerList() {
           </div>
         </div>
       )}
-      <Footer />
+      
     </div>
   );
 }

@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';  // Use Axios for API requests
 import './DashboardPage.css';
 import Header from '../components/Header';
 import { Chart } from 'chart.js/auto'; // Importing Chart.js for bar charts
-import Footer from '../components/Footer';
+import { notification } from 'antd'; // Import notification for error handling
+
 
 const Dashboard = () => {
   const [selectedFarmer, setSelectedFarmer] = useState('');
@@ -18,7 +20,7 @@ const Dashboard = () => {
     datasets: [],
   });
 
-  const chartRef = useRef(null); 
+  const chartRef = useRef(null);
 
   const salesChartRef = useRef(null); // Create a separate reference for the sales chart
 
@@ -369,8 +371,7 @@ const Dashboard = () => {
       ) : (
         isSaleTableVisible && filteredSales.length === 0 && <p className='no-sales-found-message'>No sales found matching the selected filters.</p>
         )}
-
-      <Footer />
+        
     </div>
   );
 };

@@ -60,7 +60,6 @@ function CustomerPage() {
       <div className="table-container">
         <CustomerTable tableData={customerTableData} />      
       </div>
-      <Footer/>
     </div>
   );
 }

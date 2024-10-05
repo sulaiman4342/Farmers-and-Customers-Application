@@ -1,5 +1,5 @@
 import React from "react";
-import './styles/FarmerRegistration.css';
+import './FarmerRegistration.css';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
@@ -67,7 +67,6 @@ const FarmerRegistrationForm = () =>{
                     </div>
                 </form>
             </div>
-            <Footer />
         </>
         
     );

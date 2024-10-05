@@ -1,33 +1,44 @@
+/* Container for the farmer list page */
+.farmer-list-page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 90vh; 
+}
+
+/* Main container for the farmer list */
 .farmer-list-container {
     width: 90%;
     margin: 0 auto;
     padding-top: 20px;
+    flex-grow: 1; /* Makes the container take the available vertical space */
 }
 
-h2 {
+/* Centered headings */
+h2, h3 {
     text-align: center;
     margin-bottom: 20px;
 }
 
 h3 {
-    text-align: center;
-    margin-bottom: 20px;
     color: #000000;
 }
 
+/* Container for the table */
 .table-container {
-    background-color: white; /* Ensure the table's background remains white */
+    background-color: white;
     padding: 20px;
-    border-radius: 8px; /* Add rounded corners to the table container */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a slight shadow for better visibility */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Table styling */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
 }
 
+/* Table header and data cell styling */
 th, td {
     border: 1px solid #ddd;
     padding: 8px;
@@ -38,6 +49,7 @@ th {
     background-color: #f2f2f2;
 }
 
+/* Button styling for table actions */
 button {
     background-color: #f6f7f6;
     color: #333;
@@ -52,18 +64,27 @@ button:hover {
     background-color: #e2e2e2;
 }
 
+/* QR section styling */
 .qr-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
     justify-content: center;
+    height: 150px; /* Reserved space for QR code, even when hidden */
+    visibility: hidden; /* Initially hidden, visible when QR is generated */
 }
 
+.qr-section.visible {
+    visibility: visible; /* Show QR code section when QR is generated */
+}
+
+/* Button container for QR download and print */
 .btn-container {
     margin-top: 15px;
 }
 
+/* QR code download and print buttons */
 .download-print-btns {
     background-color: #4CAF50;
     color: white;
@@ -79,8 +100,9 @@ button:hover {
     background-color: #45a049;
 }
 
+/* Modal styling */
 .blur-background {
-    filter: blur(5px);
+    filter: blur(5px); /* Blur effect when the modal is active */
 }
 
 .modal-container {
@@ -104,9 +126,10 @@ button:hover {
     width: 100%;
     padding: 1.5rem;
     max-height: 80vh;
-    overflow-y: auto;
+    overflow-y: auto; /* Enable scrolling if the content overflows */
 }
 
+/* Form styling */
 .form {
     display: flex;
     flex-direction: column;
@@ -120,6 +143,7 @@ button:hover {
     margin-bottom: 0.5rem;
 }
 
+/* Input field styling inside the form */
 .input-field {
     padding: 0.5rem;
     border: 1px solid #ccc;
@@ -127,11 +151,13 @@ button:hover {
     width: 100%;
 }
 
+/* Button group in the modal */
 .button-group {
     display: flex;
     justify-content: flex-end;
 }
 
+/* Submit button styling */
 .submit-btn {
     background-color: #4CAF50;
     color: white;
@@ -146,6 +172,7 @@ button:hover {
     background-color: #45a049;
 }
 
+/* Cancel button styling */
 .cancel-btn {
     background-color: #ed1212;
     color: #f2f2f2;
@@ -158,3 +185,4 @@ button:hover {
 .cancel-btn:hover {
     background-color: red;
 }
+

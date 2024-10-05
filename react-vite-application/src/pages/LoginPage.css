@@ -2,14 +2,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 94vh;
     background: linear-gradient(135deg, #024075, #0293d6); /* Blue gradient background */
     background-size: cover;
     background-position: center;
   }
   
   .login-form {
-    background-color: #f5f5f5; /* Light grey background for the form */
+    background-color: #f5f5f5; 
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
@@ -29,7 +29,7 @@
     font-family: 'Arial', sans-serif;
     font-size: 20px;
     margin-bottom: 30px;
-    color: #333; /* Dark text color */
+    color: #333; 
   }
   
   .form-group {
