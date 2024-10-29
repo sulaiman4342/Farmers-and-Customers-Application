@@ -128,4 +128,38 @@ canvas {
   margin-left: 5px;
   margin-bottom: 15px;
 }
+/* Styling for pagination-controls */
+.pagination-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 10px;
+  margin-right: 20px;
+}
 
+.pagination-controls button {
+  /* background-color: #928c8c; */
+  /* color: white; */
+  border: none;
+  padding: 2px 5px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.pagination-controls button:disabled {
+  /* background-color: #ddd; */
+  /* color: #666; */
+  cursor: not-allowed;
+}
+
+
+
+.pagination-controls span {
+  /* background-color: white; */
+  color: rgb(57, 53, 53);
+  /* border: 1px solid #ddd; */
+  padding: 2px 5px;
+  margin: 0 0px;
+  font-weight: bold;
+}
