@@ -8,7 +8,8 @@ const FarmerRightForm = ({
   handleWeightChange,
   addWeight,
   removeWeight,
-  setWeightEntry
+  setWeightEntry,
+  handleSubmit
 }) => {
   return (
     <div className="right-form-container">
@@ -58,7 +59,9 @@ const FarmerRightForm = ({
               type="number"
               placeholder="Crates"
               value={weightEntry.crates}
-              onChange={(e) => setWeightEntry({ ...weightEntry, crates: e.target.value })}
+              onChange={(e) => setWeightEntry({ 
+                ...weightEntry, 
+                crates: Number(e.target.value) })}
             />
           </div>
           <div className="form-row">
@@ -66,7 +69,7 @@ const FarmerRightForm = ({
               type="text"
               value={weightEntry.date} readOnly />
           </div>
-          <button className="submit-button">Submit</button>
+          <button onClick={handleSubmit} className="submit-button">Submit</button>
         </div>
 
         {/* Right side input fields */}
@@ -80,7 +83,7 @@ const FarmerRightForm = ({
             <input
               type="number"
               value={weightEntry.unitPrice}
-              onChange={(e) => setWeightEntry({ ...weightEntry, unitPrice: e.target.value })}
+              onChange={(e) => setWeightEntry({ ...weightEntry, unitPrice: parseInt(e.target.value, 10 || 0) })}
             />
           </div>
         </div>
@@ -104,6 +107,7 @@ FarmerRightForm.propTypes = {
   addWeight: PropTypes.func.isRequired,
   removeWeight: PropTypes.func.isRequired,
   setWeightEntry: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
 };
 
 export default FarmerRightForm;

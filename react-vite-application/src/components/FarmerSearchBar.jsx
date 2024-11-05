@@ -13,7 +13,7 @@ const SearchBar = ({ farmerId, setFarmerId, onSearch }) => {
         onChange={(e) => setFarmerId(e.target.value)}
         className="farmer-page-search-bar"
       />
-      <button onClick={onSearch} className="select-button">Select</button>
+      <button onClick={onSearch} className="farmer-select-button">Select</button>
     </div>
   );
 };

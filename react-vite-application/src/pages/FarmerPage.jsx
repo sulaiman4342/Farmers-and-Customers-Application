@@ -1,81 +1,356 @@
 // File: src/pages/FarmerPage.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef  } from "react";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
 import FarmerLeftForm from "../components/FarmerLeftForm";
 import FarmerRightForm from "../components/FarmerRightForm";
 import FarmerTable from "../components/FarmerTable";
 import SearchBar from "../components/FarmerSearchBar";
+import Swal from "sweetalert2";
+import axios from "axios";
 import "./FarmerPage.css";
 
 function FarmerPage() {
+
+  const user_id = parseInt(localStorage.getItem('user_id'), 10);
+
   const [farmerData, setFarmerData] = useState({
     fullName: "",
     nicNumber: "",
     contactNumber: "",
     size: "",
     growingArea: "",
-    category: ""
+    category: "",
+    supplier_id: null
   });
 
   const [weightEntry, setWeightEntry] = useState({
     vehicleNo: "",
     grnNumber: "",
-    crates: 0,
+    crates: "",
     date: new Date().toISOString().slice(0, 10),
     totalWeight: 0,
     unitPrice: 0,
     bucketWeights: [],
   });
 
-  const [farmerId, setFarmerId] = useState("");
+  const [tableData, setTableData] = useState([]);
+  const [unitPrice, setUnitPrice] = useState(0); // State for unit price
+  const [farmerId, setFarmerId] = useState(""); 
   const [bucketWeight, setBucketWeight] = useState("");
 
-  const fetchFarmerDetails = (id) => {
-    const sampleData = {
-      1: { fullName: "John Doe", nicNumber: "123456789V", contactNumber: "0712345678", size: "Large", growingArea: "North", category: "A" },
-      2: { fullName: "Jane Smith", nicNumber: "987654321V", contactNumber: "0718765432", size: "Medium", growingArea: "East", category: "B" },
-    };
-    return sampleData[id] || {};
-  };
+  
+  
+  const searchInputRef = useRef(null);
 
-  const handleSearch = () => {
-    const data = fetchFarmerDetails(farmerId);
-    setFarmerData(data);
-  };
+  // Fetch all data for the table
+  useEffect(() => {
+    // Focus on search input when component mounts
+    searchInputRef.current?.focus();
 
-  const handleWeightChange = (e) => {
-    setBucketWeight(e.target.value);
-  };
-
-  const addWeight = () => {
-    if (bucketWeight) {
-      const newWeights = [...weightEntry.bucketWeights, parseFloat(bucketWeight)];
-      const totalWeight = newWeights.reduce((acc, curr) => acc + curr, 0);
-      setWeightEntry({
-        ...weightEntry,
-        bucketWeights: newWeights,
-        totalWeight: totalWeight,
+    // Fetch all data and filter by user_id
+    axios
+      .get("http://64.227.152.179:8080/weighingSystem-1/data/all")
+      .then((response) => {
+        const filteredData = response.data.filter(
+          (item) => item.supplier.users.id === user_id
+        );
+        setTableData(filteredData.reverse().map((item) =>({
+          ...item,
+          total: Number(item.total),
+          noofbox: Number(item.noofbox),
+        }))
+      );
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "Error loading data from the server.",
+          icon: "error",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       });
-      setBucketWeight("");
+
+    // Fetch price data based on the selected date
+    const defaultDate = new Date();
+    const formattedDate = new Date(
+      defaultDate.getTime() - defaultDate.getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .substring(0, 10);
+
+    axios
+      .get(`http://64.227.152.179:8080/weighingSystem-1/price/${formattedDate}`)
+      .then((priceResponse) => {
+        const filteredPriceData = priceResponse.data.filter(
+          (data) => data.user_id === user_id
+        );
+
+        if (filteredPriceData.length > 0) {
+          setUnitPrice(filteredPriceData[0].bulkbuy || 0); // Set unit price from the first matching entry
+        } else {
+          Swal.fire({
+            title: "Error!",
+            text: "No price data found for the user on this date.",
+            icon: "warning",
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
+      })
+      .catch((priceError) => {
+        console.error("Error fetching price data:", priceError);
+        Swal.fire({
+          title: "Error!",
+          text: "Error loading price data from the server.",
+          icon: "error",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      });
+  }, [user_id]);
+
+  // Fetch farmer details based on farmerId (showId)
+  const fetchFarmerData = async () => {
+    // Show loading alert
+    Swal.fire({
+        title: 'Searching...',
+        html: '<div class="modern-loading"><div class="spinner"></div><div>Loading...</div></div>',
+        showConfirmButton: false,
+        allowOutsideClick: false,
+    });
+
+    try {
+        // Check if farmerId is a string (not numeric) and attempt to parse as JSON
+        if (isNaN(farmerId)) {
+            try {
+                const parsedData = JSON.parse(farmerId);
+                
+                // Check if parsed JSON contains user_id matching current user
+                if (parsedData.user_id === user_id) {
+                    setFarmerData({
+                        fullName: `${parsedData.firstname} ${parsedData.lastname}`,
+                        nicNumber: parsedData.idnumber,
+                        contactNumber: parsedData.connumber,
+                        size: parsedData.size,
+                        growingArea: parsedData.area,
+                        category: parsedData.category,
+                        supplier_id: parsedData.id,
+                    });
+                    Swal.close();
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Successfully fetched data',
+                        icon: 'success',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true,
+                    });
+                } else {
+                    throw new Error("No Farmer Found!");
+                }
+            } catch (error) {
+                Swal.close();
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Invalid JSON format or No Farmer Found!',
+                    icon: 'error',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                });
+            }
+        } 
+        // Check if farmerId is a number
+        else if (!isNaN(farmerId)) {
+            const apiUrl = `http://64.227.152.179:8080/weighingSystem-1/supplier/showId/${farmerId}`;
+            const response = await axios.get(apiUrl);
+            const data = response.data;
+
+            if (data.user_id === user_id) {
+                setFarmerData({
+                    fullName: `${data.firstname} ${data.lastname}`,
+                    nicNumber: data.idnumber,
+                    contactNumber: data.connumber,
+                    size: data.size,
+                    growingArea: data.area,
+                    category: data.category,
+                    supplier_id: data.id,
+                });
+
+                Swal.close();
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Successfully fetched data',
+                    icon: 'success',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                });
+            } else {
+                throw new Error("No Farmer Found!");
+            }
+        } 
+        // If neither string nor numeric, show error
+        else {
+            throw new Error("Invalid format for farmer ID.");
+        }
+    } catch (error) {
+        Swal.close();
+        Swal.fire({
+            title: 'Error!',
+            text: error.message || 'Error loading farmer data',
+            icon: 'error',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+        });
+    }
+};
+
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    Swal.fire({
+      title: null,
+      html: '<div class="modern-loading"><div class="spinner"></div><div>Loading...</div></div>',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+    });
+  
+    // Format the date
+    const formattedDate = weightEntry.date 
+      ? new Date(new Date(weightEntry.date).getTime() - new Date(weightEntry.date).getTimezoneOffset() * 60000)
+          .toISOString()
+          .substring(0, 10)
+      : null;
+  
+    
+  
+    // Check that essential fields are filled
+    if (farmerData.fullName && weightEntry.grnNumber && weightEntry.crates && weightEntry.totalWeight) {
+      // Create the weights array
+      const weightsArray = weightEntry.bucketWeights.map((weight) => ({ weight }));
+  
+      // Construct the payload for the API request
+      const payload = {
+        containerNumber: weightEntry.vehicleNo,
+        grnnumber: weightEntry.grnNumber,
+        noofbox: weightEntry.crates,
+        trays: weightsArray.length, // Set trays based on bucket count
+        date: formattedDate,
+        supplier_id: farmerData.supplier_id, 
+        area: farmerData.growingArea,
+        size: farmerData.size,
+        category: farmerData.category,
+        total: weightEntry.totalWeight,
+        weights: weightsArray,
+        unitprice: weightEntry.unitPrice,
+        cost: weightEntry.totalWeight * weightEntry.unitPrice, // Calculate cost as total weight * unit price
+      };
+      
+  
+      try {
+        const response = await axios.post(
+          'http://64.227.152.179:8080/weighingSystem-1/data/save',
+          payload,
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+  
+        // Close loading alert and show success notification
+        Swal.close();
+        Swal.fire({
+          title: 'Success!',
+          text: 'Data submitted successfully!',
+          icon: 'success',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+        });
+  
+        // setTableData((prevTableData) => [
+        //   ...prevTableData,
+        //   {
+        //     farmerName: farmerData.fullName,
+        //     containerNumber: response.data.containerNumber,
+        //     grnNumber: response.data.grnnumber,
+        //     date: response.data.date,
+        //     totalWeight: response.data.total,
+        //     crates: response.data.noofbox,
+        //     weightDisposal: response.data.disposal || 0, // Handle if disposal is null
+        //   },
+        // ]);
+        
+        // Reset form data
+        setFarmerData({
+          fullName: "",
+          nicNumber: "",
+          contactNumber: "",
+          size: "",
+          growingArea: "",
+          category: "",
+          supplier_id: null, // Reset supplier_id
+        });
+        setWeightEntry({
+          vehicleNo: "",
+          grnNumber: "",
+          crates: 0,
+          date: new Date().toISOString().slice(0, 10),
+          totalWeight: 0,
+          unitPrice: 0,
+          bucketWeights: [],
+        });
+        setBucketWeight("");
+        setFarmerId("");
+      } catch (error) {
+        Swal.close();
+        console.error('Error submitting data:', error);
+  
+        // Show error alert
+        Swal.fire({
+          title: 'Error!',
+          text: 'Error submitting data to the server.',
+          icon: 'error',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+        });
+      }
+    } else {
+      // If required fields are missing
+      Swal.close();
+      Swal.fire({
+        title: 'Error!',
+        text: 'Please ensure all required fields are filled and a supplier is selected!',
+        icon: 'error',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
     }
   };
-
-  const removeWeight = (index) => {
-    const newWeights = weightEntry.bucketWeights.filter((_, i) => i !== index);
-    const totalWeight = newWeights.reduce((acc, curr) => acc + curr, 0);
-    setWeightEntry({
-      ...weightEntry,
-      bucketWeights: newWeights,
-      totalWeight: totalWeight,
-    });
-  };
-
-  const tableData = [
-    { farmerName: "M.R. Sirisena", containerNumber: "hcdsgch", grnNumber: "hdg", date: "2024-08-05", totalWeight: 210.87, numberOfCrates: 5, weightDisposal: 8.25 },
-    { farmerName: "M.K. Siripala", containerNumber: "123", grnNumber: "11", date: "2024-01-05", totalWeight: 157.00, numberOfCrates: 4, weightDisposal: 10.25 },
-    { farmerName: "M.R. Sirisena", containerNumber: "1", grnNumber: "123", date: "2023-12-22", totalWeight: 110.44, numberOfCrates: 4, weightDisposal: 12.25 }
-  ];
 
   return (
     <div className="farmer-page-container">
@@ -85,7 +360,7 @@ function FarmerPage() {
       <SearchBar 
         farmerId={farmerId}
         setFarmerId={setFarmerId}
-        onSearch={handleSearch}
+        onSearch={fetchFarmerData}
       />
 
       {/* Forms Container */}
@@ -94,10 +369,20 @@ function FarmerPage() {
         <FarmerRightForm
           weightEntry={weightEntry}
           bucketWeight={bucketWeight}
-          handleWeightChange={handleWeightChange}
-          addWeight={addWeight}
-          removeWeight={removeWeight}
+          handleWeightChange={(e) => setBucketWeight(e.target.value)}
+          addWeight={() => {
+            if (bucketWeight) {
+              const newWeights = [...weightEntry.bucketWeights, parseFloat(bucketWeight)];
+              setWeightEntry({ ...weightEntry, bucketWeights: newWeights, totalWeight: newWeights.reduce((acc, w) => acc + w, 0) });
+              setBucketWeight("");
+            }
+          }}
+          removeWeight={(index) => {
+            const newWeights = weightEntry.bucketWeights.filter((_, i) => i !== index);
+            setWeightEntry({ ...weightEntry, bucketWeights: newWeights, totalWeight: newWeights.reduce((acc, w) => acc + w, 0) });
+          }}
           setWeightEntry={setWeightEntry}
+          handleSubmit={handleSubmit} // Pass handleSubmit as prop
         />
       </div>
 

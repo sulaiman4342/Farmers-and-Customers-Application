@@ -12,7 +12,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
+  min-height: 40px;
+  
 }
 
 /* Input field for weight */
@@ -45,6 +47,7 @@
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 7px;
+  min-height: 45px;
 }
 
 .weight-card {

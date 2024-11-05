@@ -6,6 +6,9 @@
   width: 100%;
   box-sizing: border-box;
 }
+.search-bar-container {
+  margin-bottom: 10px; /* Reduce spacing */
+}
 
 
 /* Forms container */
@@ -15,5 +18,11 @@
   align-items: flex-start;
   width: 96%; 
   gap: 20px;
-  margin-bottom: 20px; 
+  margin-top: 5px;
+  margin-bottom: 10px; 
+}
+
+.table-container {
+  /* width: 96%; */
+  margin-top: 10px;
 }

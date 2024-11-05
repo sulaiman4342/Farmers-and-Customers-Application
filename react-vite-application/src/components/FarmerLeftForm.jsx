@@ -6,9 +6,9 @@ import './styles/FarmerLeftForm.css';
 
 const FarmerLeftForm = ({ farmerData }) => {
   return (
-    <div className="left-form-container">
+    <div className="farmer-left-form-container">
       <FontAwesomeIcon icon={faUser} size="3x" />
-      <div className="left-form">
+      <div className="farmer-left-form">
         <div className="form-group">
           <label>Full Name:</label>
           <input type="text" value={farmerData.fullName} readOnly />
