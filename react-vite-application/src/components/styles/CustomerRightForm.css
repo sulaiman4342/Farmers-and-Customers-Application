@@ -49,10 +49,10 @@
 }
 
 @media (max-width: 768px) {
-    .customer-page-right-form-container {
+    /* .customer-page-right-form-container {
         width: 100%;
-        margin-bottom: 15px; /* Reduced margin */
-    }
+        margin-bottom: 5px; 
+    } */
 
     .customer-page-form-group {
         flex-direction: column;

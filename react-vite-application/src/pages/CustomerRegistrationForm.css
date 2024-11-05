@@ -14,6 +14,7 @@
   margin: 10px auto;
   display: flex;
   flex-direction: column;
+ 
 }
 
 /* Form header styling */
@@ -101,4 +102,13 @@ input[type="text"] {
   .reg-view-button {
     width: 50%;
   }
+  .form-buttons-reg-page {
+        flex-direction: column; /* Stack buttons */
+        gap: 10px;
+        margin-bottom: 50px;
+      }
+
+    .registration-form-container{
+        margin-bottom: 40px ;
+      }
 }

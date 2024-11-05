@@ -12,7 +12,7 @@ const CustomerSearchBar = ({ customerId, setCustomerId, handleCustomerSearch }) 
         onChange={(e) => setCustomerId(e.target.value)}
         className="customer-page-search-bar"
       />
-      <button onClick={handleCustomerSearch} className="sel45ect-button">Select</button>
+      <button onClick={handleCustomerSearch} className="customer-select-button">Select</button>
     </div>
   );
 };

@@ -1,7 +1,32 @@
-import React from "react";
+import React, {useState} from "react";
 import "./styles/CustomerTable.css"
 
 const CustomerTable = ({ tableData }) => {
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+
+  // Calculate total pages
+  const totalPages = Math.ceil(tableData.length / itemsPerPage);
+
+  // Calculate data for the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Function to handle page change
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
     return (
       <div className="table-container">
         <table className="customer-table">
@@ -18,7 +43,7 @@ const CustomerTable = ({ tableData }) => {
             </tr>
           </thead>
           <tbody>
-            {tableData.map((row, index) => (
+            {currentItems.map((row, index) => (
               <tr key={index}>
                 <td>{row.customerName}</td>
                 <td>{row.date}</td>
@@ -32,6 +57,17 @@ const CustomerTable = ({ tableData }) => {
             ))}
           </tbody>
         </table>
+        {/* Pagination Controls */}
+        <div className="pagination-controls">
+          <button onClick={goToPreviousPage} disabled={currentPage === 1}>
+            &laquo;
+          </button>
+          <span>Page {currentPage} of {totalPages}</span>
+          <button onClick={goToNextPage} disabled={currentPage === totalPages}>
+             &raquo;
+          </button>
+        </div>
+
       </div>
     );
   };
