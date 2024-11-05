@@ -1,0 +1,79 @@
+.priceadd-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+  }
+  
+  .priceadd-box {
+    width: auto;
+    height: auto;
+    padding: 20px;
+    border: 1px solid #5f5d5d;
+    border-radius: 25px;
+    box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.1);
+    background-color: #ecf7fa;
+    margin-top: 35px;
+    margin-bottom: 30px;
+    
+    
+  }
+  
+  .priceadd-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    margin: auto;
+  }
+
+  
+  
+  .priceadd-input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .priceadd-label {
+    width: 150px; /* Adjust the width as needed for your design */
+    margin-right: 10px; /* Adjust the margin between label and input */
+    font-weight: bold;
+    margin-left: 50px;
+  }
+  
+  .priceadd-input {
+    flex: 1; 
+    margin-bottom: 10px;
+    padding: 7px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-right: 50px;
+    
+  }
+  
+  .priceadd-box button {
+    background-color: #a611eb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+    width: 100px;
+    margin-left: 200px;
+    
+  }
+  
+  .priceadd-box button:hover {
+    background-color: #69017e;
+  }
+
+  .priceadd-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 20px;
+  }
