@@ -32,7 +32,7 @@ const CustomerRightForm = ({ saleEntry, setSaleEntry, handleSubmit }) => {
           <input type="number" name="grade3" value={saleEntry.grade3} onChange={handleChange} />
         </div>
         <div className="customer-page-form-group">
-          {/* Date input set to readonly */}
+          
           <input 
             type="date" 
             name="date" 

@@ -4,7 +4,7 @@ import "./styles/CustomerTable.css"
 const CustomerTable = ({ tableData }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 5;
 
   // Calculate total pages
   const totalPages = Math.ceil(tableData.length / itemsPerPage);

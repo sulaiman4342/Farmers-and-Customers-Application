@@ -25,73 +25,136 @@ function CustomerPage() {
     date: new Date().toISOString().slice(0, 10),
   });
 
+  const [exportPrice, setExportPrice] = useState('');
+  const [localNo1Price, setLocalNo1Price] = useState('');
+  const [localNo2Price, setLocalNo2Price] = useState('');
+  const [grade3Price, setGrade3Price] = useState('');
+
   const [tableData, setTableData] = useState([]);
   const [customerId, setCustomerId] = useState("");
 
   const user_id = parseInt(localStorage.getItem('user_id'), 10);
 
   // Function to fetch customer details from the backend based on customerId
-  const fetchCustomerDetails = async (id) => {
-    const apiUrl = `http://64.227.152.179:8080/weighingSystem-/seller/showId/${id}`;
+  const fetchCustomerDetails = async (customerId) => {
+    const apiUrl = `http://64.227.152.179:8080/weighingSystem-1/seller/showId/${customerId}`;
 
     // Show loading alert
     Swal.fire({
-      title: 'Searching...',
-      html: '<div class="modern-loading"><div class="spinner"></div><div>Loading...</div></div>',
-      showConfirmButton: false,
-      allowOutsideClick: false,
+        title: 'Searching...',
+        html: '<div class="modern-loading"><div class="spinner"></div><div>Loading...</div></div>',
+        showConfirmButton: false,
+        allowOutsideClick: false,
     });
 
     try {
-      const response = await axios.get(apiUrl);
-      const data = response.data;
+        // Check if customerId is a string and try to parse as JSON
+        if (isNaN(customerId)) {
+            try {
+                const parsedData = JSON.parse(customerId);
 
-      // Verify if the user_id matches
-      if (data.user_id === user_id) {
-        setCustomerData({
-          fullName: `${data.firstname} ${data.lastname}`,
-          nicNumber: data.idnumber,
-          contactNumber: data.connumber,
-          seller_id: data.id,
-        });
+                // Verify if parsed JSON contains user_id matching current user
+                if (parsedData.user_id === user_id) {
+                    setCustomerData({
+                        fullName: `${parsedData.firstname} ${parsedData.lastname}`,
+                        nicNumber: parsedData.idnumber,
+                        contactNumber: parsedData.connumber,
+                        seller_id: parsedData.id,
+                    });
 
-        Swal.close();
-        Swal.fire({
-          title: 'Success!',
-          text: 'Customer data fetched successfully!',
-          icon: 'success',
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-        });
-      } else {
-        Swal.close();
-        Swal.fire({
-          title: 'Error!',
-          text: 'No Customer Found for this ID!',
-          icon: 'error',
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-        });
-      }
+                    Swal.close();
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Customer data fetched successfully!',
+                        icon: 'success',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true,
+                    });
+                } else {
+                    throw new Error("No Customer Found!");
+                }
+            } catch (error) {
+                // Handle JSON parsing errors or unmatched IDs
+                Swal.close();
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Invalid JSON format or No Customer Found!',
+                    icon: 'error',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                });
+            }
+        } 
+        // If customerId is numeric, make API call
+        else if (!isNaN(customerId)) {
+            const response = await axios.get(apiUrl);
+            const data = response.data;
+
+            // Verify if user_id matches
+            if (data.user_id === user_id) {
+                setCustomerData({
+                    fullName: `${data.firstname} ${data.lastname}`,
+                    nicNumber: data.idnumber,
+                    contactNumber: data.connumber,
+                    seller_id: data.id,
+                });
+
+                Swal.close();
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Customer data fetched successfully!',
+                    icon: 'success',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                });
+            } else {
+                throw new Error("No Customer Found!");
+            }
+        } 
+        // If neither string nor numeric, show error
+        else {
+            throw new Error("Invalid format for customer ID.");
+        }
     } catch (error) {
-      Swal.close();
-      console.error('Error fetching customer data:', error);
-      Swal.fire({
-        title: 'Error!',
-        text: 'Error loading customer data from the server.',
-        icon: 'error',
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 1500,
-        timerProgressBar: true,
-      });
+        // Close loading alert and show error
+        Swal.close();
+        Swal.fire({
+            title: 'Error!',
+            text: error.message || 'Error loading customer data from the server.',
+            icon: 'error',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+        });
+    }
+  };
+
+  // Handler to call fetchCustomerDetails when searching for a customer
+  const handleCustomerSearch = () => {
+    if (customerId) {
+        fetchCustomerDetails(customerId);
+    } else {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please enter a Customer ID to search!',
+            icon: 'error',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+        });
     }
   };
 
@@ -115,20 +178,18 @@ function CustomerPage() {
       grade3: parseFloat(saleEntry.grade3),
       date: saleEntry.date,
       seller_id: customerData.seller_id,
-      cost: 5.00, // Placeholder cost; replace if dynamically calculated
-      total: parseFloat(saleEntry.export) + parseFloat(saleEntry.localNo1) + parseFloat(saleEntry.localNo2) + parseFloat(saleEntry.grade3),
+      cost: calculateCost(),
+      total: calculateTotal()
     };
 
     try {
-      const response = await axios.post(
+      axios.post(
         "http://64.227.152.179:8080/weighingSystem-1/stocksell/save",
         payload,
         { headers: { "Content-Type": "application/json" } }
       );
 
-      // Log response data to the console
-      console.log("Server Response:", response.data);
-
+      
       Swal.close();
       Swal.fire({
         title: 'Success!',
@@ -180,24 +241,6 @@ function CustomerPage() {
     }
   };
 
-  // Handler to call fetchCustomerDetails when searching for a customer
-  const handleCustomerSearch = () => {
-    if (customerId) {
-      fetchCustomerDetails(customerId);
-    } else {
-      Swal.fire({
-        title: 'Error!',
-        text: 'Please enter a Customer ID to search!',
-        icon: 'error',
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 1500,
-        timerProgressBar: true,
-      });
-    }
-  };
-
   // Fetch all customer sale entries for the table
   useEffect(() => {
     const fetchTableData = async () => {
@@ -234,8 +277,74 @@ function CustomerPage() {
       }
     };
 
+    const fetchPriceData = async () => {
+      try {
+        const defaultDate = new Date();
+        const formattedDefaultDate = new Date(
+          defaultDate.getTime()-defaultDate.getTimezoneOffset() * 60000)
+          .toISOString()
+          .substring(0,10);
+
+        const priceResponse = await axios.get(`http://64.227.152.179:8080/weighingSystem-1/price/${formattedDefaultDate}`);
+
+        const filteredPriceData = priceResponse.data.filter(data => data.user_id===user_id);
+
+        if (filteredPriceData.length > 0){
+          const firstPriceData = filteredPriceData[0];
+          setExportPrice(firstPriceData.exportsell);
+          setLocalNo1Price(firstPriceData.local_no_1sell);
+          setLocalNo2Price(firstPriceData.local_no_2sell);
+          setGrade3Price(firstPriceData.grade3sell);
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: 'No price data found for the user.',
+            icon: 'error',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
+      } catch (priceError) {
+        console.error('Error fetching price data:', priceError);
+        Swal.fire({
+          title: 'Error!',
+          text: 'Error loading price data from the server.',
+          icon: 'error',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    };
+    
     fetchTableData();
+    fetchPriceData();
   }, [user_id]);
+
+  const calculateTotal = () => {
+    const exportWeight = parseFloat(saleEntry.export);
+    const localNo1Weight = parseFloat(saleEntry.localNo1);
+    const localNo2Weight = parseFloat(saleEntry.localNo2);
+    const grade3Weight = parseFloat(saleEntry.grade3);
+
+    const total = exportWeight + localNo1Weight + localNo2Weight + grade3Weight;
+
+    return isNaN(total) ? 0 : `${total.toFixed(2)}`;
+  };
+
+  const calculateCost = () => {
+    const costExport = parseFloat(saleEntry.export) * parseFloat(exportPrice);
+    const costLocalNo1 = parseFloat(saleEntry.localNo1) * parseFloat(localNo1Price);
+    const costLocalNo2 = parseFloat(saleEntry.localNo2) * parseFloat(localNo2Price);
+    const costGrade3 = parseFloat(saleEntry.grade3) * parseFloat(grade3Price);
+
+    const totalCost = costExport + costLocalNo1 + costLocalNo2 + costGrade3;
+
+    return isNaN(totalCost) ? 0 : `${totalCost.toFixed(2)}`;
+  }
 
   return (
     <div className="customer-page-container">
