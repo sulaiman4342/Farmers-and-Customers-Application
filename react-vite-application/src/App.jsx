@@ -6,6 +6,7 @@ import CustomerListPage from './pages/CustomerListPage';
 import FarmerRegistrationPage from './pages/FarmersListPage';
 import CustomerRegistrationForm from './pages/CustomerRegistrationForm';
 import FarmerRegistrationForm from './pages/FarmerRegistration';
+import PriceAdd from './pages/DailyPrice';
 import Dashboard from './pages/DashboardPage';
 import FarmerPage from './pages/FarmerPage';
 import CustomerPage from './pages/CustomerPage';
@@ -23,6 +24,7 @@ function App() {
             <Route path="/farmer-list" element={<FarmerRegistrationPage />} />
             <Route path="/customer-registration" element={<CustomerRegistrationForm />} />
             <Route path="/farmer-registration" element={<FarmerRegistrationForm />} />
+            <Route path="/daily-price" element={< PriceAdd />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/farmerPage" element={<FarmerPage />} />
             <Route path="/customerPage" element={<CustomerPage />} />
