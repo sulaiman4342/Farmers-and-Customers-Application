@@ -66,8 +66,10 @@ const FarmerRightForm = ({
           </div>
           <div className="form-row">
             <input 
-              type="text"
-              value={weightEntry.date} readOnly />
+              type="date"
+              value={weightEntry.date} 
+              onChange={(e) => setWeightEntry({ ...weightEntry, date: e.target.value })}
+              />
           </div>
           <button onClick={handleSubmit} className="submit-button">Submit</button>
         </div>

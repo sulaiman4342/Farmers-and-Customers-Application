@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './RegistrationPage.css';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
-import Footer from '../components/Footer';
+
 
 
 const RegistrationPage = () => {
@@ -22,6 +22,10 @@ const RegistrationPage = () => {
         navigate('/farmer-registration');
     };    
     
+    const handleDailyPrices = () => {
+        navigate('/daily-price');
+    };
+
     return (
         <>
             <Header />
@@ -33,7 +37,7 @@ const RegistrationPage = () => {
                     <button className="regis-button" onClick={handleFarmerRegistration}>
                         Farmer Registration
                     </button>
-                    <button className="regis-button">Daily Prices</button>
+                    <button className="regis-button" onClick={handleDailyPrices}>Daily Prices</button>
                 </div>           
             </div>
             
