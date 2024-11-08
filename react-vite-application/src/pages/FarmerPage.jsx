@@ -29,7 +29,6 @@ function FarmerPage() {
     crates: "",
     date: new Date().toISOString().slice(0, 10),
     totalWeight: 0,
-    unitPrice: 0,
     bucketWeights: [],
   });
 
@@ -240,9 +239,7 @@ function FarmerPage() {
           .toISOString()
           .substring(0, 10)
       : null;
-  
-    
-  
+        
     // Check that essential fields are filled
     if (farmerData.fullName && weightEntry.grnNumber && weightEntry.crates && weightEntry.totalWeight) {
       // Create the weights array
@@ -261,8 +258,8 @@ function FarmerPage() {
         category: farmerData.category,
         total: weightEntry.totalWeight,
         weights: weightsArray,
-        unitprice: weightEntry.unitPrice,
-        cost: weightEntry.totalWeight * weightEntry.unitPrice, // Calculate cost as total weight * unit price
+        unitprice: unitPrice,
+        cost: weightEntry.totalWeight * unitPrice, // Calculate cost as total weight * unit price
       };
       
   
@@ -286,18 +283,18 @@ function FarmerPage() {
           timerProgressBar: true,
         });
   
-        // setTableData((prevTableData) => [
-        //   ...prevTableData,
-        //   {
-        //     farmerName: farmerData.fullName,
-        //     containerNumber: response.data.containerNumber,
-        //     grnNumber: response.data.grnnumber,
-        //     date: response.data.date,
-        //     totalWeight: response.data.total,
-        //     crates: response.data.noofbox,
-        //     weightDisposal: response.data.disposal || 0, // Handle if disposal is null
-        //   },
-        // ]);
+        setTableData((prevTableData) => [
+          ...prevTableData,
+          {
+            farmerName: farmerData.fullName,
+            containerNumber: response.data.containerNumber,
+            grnNumber: response.data.grnnumber,
+            date: response.data.date,
+            totalWeight: response.data.total,
+            crates: response.data.noofbox,
+            weightDisposal: response.data.disposal || 0, // Handle if disposal is null
+          },
+        ]);
         
         // Reset form data
         setFarmerData({
@@ -315,11 +312,14 @@ function FarmerPage() {
           crates: 0,
           date: new Date().toISOString().slice(0, 10),
           totalWeight: 0,
-          unitPrice: 0,
           bucketWeights: [],
         });
         setBucketWeight("");
         setFarmerId("");
+
+        // Call handlePrint after successful submission
+        handlePrint(payload);
+        
       } catch (error) {
         Swal.close();
         console.error('Error submitting data:', error);
@@ -349,6 +349,54 @@ function FarmerPage() {
         timer: 3000,
         timerProgressBar: true,
       });
+    }
+  };
+
+  const handlePrint = (payload) => {
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      const billContent = `
+        <html>
+          <head>
+            <title>Print Bill</title>
+            <style>
+              body { font-family: Arial, sans-serif; font-size: 14px; }
+              .bill-container { margin: 20px; }
+              table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+              th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+              th { background-color: #f2f2f2; }
+            </style>
+          </head>
+          <body>
+            <div class="bill-container">
+              <h2>Bill</h2>
+              <p><strong>Farmer Name:</strong> ${farmerData.fullName}</p>
+              <p><strong>Total Weight:</strong> ${payload.total} kg</p>
+              <p><strong>Unit Price:</strong> ${unitPrice} per kg</p>
+              <p><strong>Date:</strong> ${payload.date}</p><br>
+              <table>
+                <thead>
+                  <tr><th>Grade</th><th>Item</th><th>Qty(kg)</th><th>Unit Price</th><th>Amount</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#</td>
+                    <td>${farmerData.category}</td>
+                    <td>${payload.total}</td>
+                    <td>${unitPrice}</td>
+                    <td>Rs: ${payload.total * unitPrice}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </body>
+        </html>
+      `;
+      printWindow.document.write(billContent);
+      printWindow.document.close();
+      printWindow.print();
+    } else {
+      alert('Unable to open the print window. Please check your browser settings.');
     }
   };
 
@@ -387,8 +435,7 @@ function FarmerPage() {
       </div>
 
       {/* Farmer Table */}
-      <FarmerTable tableData={tableData} />
-
+      <FarmerTable tableData={tableData} setTableData={setTableData}/>
     </div>
   );
 }
