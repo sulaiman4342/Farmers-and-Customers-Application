@@ -4,6 +4,8 @@ import "./styles/FarmerTable.css";
 import Swal from "sweetalert2";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 const FarmerTable = ({ tableData, setTableData }) => {
 
@@ -123,7 +125,7 @@ const FarmerTable = ({ tableData, setTableData }) => {
                   row.disposal
                 ) : (
                   <button onClick={() => handleUpdate(row.stock_id, row.total)} className="update-disposal-btn">
-                    Update Disposal
+                    <FontAwesomeIcon icon={faPenToSquare} />
                   </button>
                 )}
               </td>
