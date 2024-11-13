@@ -2,7 +2,7 @@
 .farmer-list-page-container {
     display: flex;
     flex-direction: column;
-    min-height: 90vh; 
+    min-height: 92vh; 
 }
 
 /* Main container for the farmer list */
@@ -14,14 +14,29 @@
 }
 
 /* Centered headings */
-h2, h3 {
+h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 100px;
 }
 
-h3 {
-    color: #000000;
+.search-bar-farmer-page {
+    display: flex;
+    justify-content: flex-end;
+    width: 30%; /* Reduced width */
+    margin-top: 15px; 
+    margin-left: auto;
+    margin-right:25px;
 }
+
+/* Input styling within the search bar */
+.search-bar-farmer-page input {
+    width: 80%; /* Adjust input width */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
 
 /* Container for the table */
 .table-container {
@@ -29,6 +44,7 @@ h3 {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 15px;
 }
 
 /* Table styling */
@@ -71,12 +87,14 @@ button:hover {
     align-items: center;
     margin-top: 20px;
     justify-content: center;
-    height: 150px; /* Reserved space for QR code, even when hidden */
+    height: 200px; /* Reserved space for QR code, even when hidden */
     visibility: hidden; /* Initially hidden, visible when QR is generated */
 }
 
+/* Adjusted QR code size */
 .qr-section.visible {
-    visibility: visible; /* Show QR code section when QR is generated */
+    visibility: visible;
+    margin-top: 30px; /* Space between table and QR code */
 }
 
 /* Button container for QR download and print */
