@@ -11,6 +11,8 @@ import Dashboard from './pages/DashboardPage';
 import FarmerPage from './pages/FarmerPage';
 import CustomerPage from './pages/CustomerPage';
 import Footer from './components/Footer';
+import AboutUs from './pages/AboutUs';
+import AdminUserView from './pages/AdminUserView';
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/farmerPage" element={<FarmerPage />} />
             <Route path="/customerPage" element={<CustomerPage />} />
+            <Route path="/aboutUs" element={<AboutUs />} />
+            <Route path="/adminUserview" element={<AdminUserView />} />
           </Routes>
         </main>
         <Footer />
