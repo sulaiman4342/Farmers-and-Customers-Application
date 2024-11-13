@@ -6,7 +6,7 @@ import Header from '../components/Header';
 
 const AboutUs = () => {
   return (
-    <div >
+    <div>
             <Header/>
     <div className='fullbody'>
     
