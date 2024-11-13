@@ -1,6 +1,10 @@
+  .customer-list-page-container{
+    display: flex;
+    flex-direction: column;
+    min-height: 92vh; 
+  }
   .customer-list-container {
-    width: 90%;
-    margin: 0 auto;
+    flex-grow: 1;
     padding-top: 20px;
   }
   
@@ -13,14 +17,17 @@
   .search-bar-customer-page{
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 15px;
+    width: 30%; /* Reduced width */
+    margin-top: 15px; 
+    margin-left: auto;
+    margin-right:20px;
   }
   
   .search-bar-customer-page input {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 250px;
+    width: 80%; /* Adjust input width */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
     margin-right: 10px;
   }
   
