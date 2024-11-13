@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import './AdminUserView.css';
 
 // Define marker icon
 const markerIcon = new L.Icon({
@@ -49,12 +50,7 @@ const AdminUserView = () => {
           {users.map((user) => (
             <li
               key={user.user_id}
-              style={{
-                padding: '10px',
-                margin: '5px 0',
-                cursor: 'pointer',
-                backgroundColor: hoveredUser?.user_id === user.user_id ? '#f0f0f0' : 'transparent',
-              }}
+              className={hoveredUser?.user_id === user.user_id ? 'user-item hovered' : 'user-item'}
               onMouseEnter={() => setHoveredUser(user)}
               onMouseLeave={() => setHoveredUser(null)}
             >
