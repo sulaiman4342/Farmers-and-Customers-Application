@@ -25,8 +25,8 @@ const AdminUserView = () => {
 
   // Define bounds for Sri Lanka (approximate coordinates)
   const sriLankaBounds = [
-    [5.8, 79.5], // Southwest corner
-    [10.0, 82.0], // Northeast corner
+    [5.6, 81.4], // Southwest corner
+    [10.0, 81.7], // Northeast corner
   ];
 
   // Map component to update view on hover
@@ -65,8 +65,8 @@ const AdminUserView = () => {
         <MapContainer
           center={[7.8731, 80.7718]} // Center of Sri Lanka
           zoom={7.5}
-          minZoom={7} // Minimum zoom level to prevent zooming out too much
-          maxZoom={9} // Maximum zoom level for detailed view
+          minZoom={7.4} // Minimum zoom level to prevent zooming out too much
+          maxZoom={7.7} // Maximum zoom level for detailed view
           maxBounds={sriLankaBounds} // Restrict map bounds to Sri Lanka
           maxBoundsViscosity={1.0} // Prevents panning outside the bounds
           style={{ height: '100%', width: '100%' }}

@@ -2,12 +2,13 @@
 
 .admin-user-view {
     display: flex;
-    height: 100vh;
+    height: 95vh;
+    margin-left:100px;
   }
   
   /* Left Section: User List */
   .user-list {
-    width: 30%;
+    width: 25%;
     padding: 20px;
     border-right: 1px solid #ccc;
     background-color: #f5f5f5; /* Light background color for visibility */
@@ -38,7 +39,7 @@
   
   /* Right Section: Map */
   .map-container {
-    width: 70%;
+    width: 55%;
     position: relative;
   }
   
