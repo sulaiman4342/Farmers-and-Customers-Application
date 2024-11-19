@@ -11,7 +11,7 @@ import './DailyPrice.css'
 function PriceAdd() {
 
   const user_id = parseInt(localStorage.getItem('user_id'), 10);
-  const [selectedDate, setSelectedDate] = useState(null);
+  // const [selectedDate, setSelectedDate] = useState(null);
 
   // // Helper function to get today's date in YYYY-MM-DD format
   // const getFormattedDate = () => {
@@ -28,7 +28,13 @@ function PriceAdd() {
     local_no_2sell: '',
     grade3sell:'',
     date: new Date().toISOString().slice(0, 10),
-    bulkbuy:'',
+    bulkbuy:{
+      guava: '',
+      mango: '',
+      banana: '',
+      papaya: '',
+      pomegranate: '',
+    },
     user_id:user_id
   });
 
@@ -167,7 +173,8 @@ function PriceAdd() {
             <div className="priceadd-inputs">
               <div className="priceadd-input-group">
                 <label className='priceadd-label' htmlFor="export">Export:</label>
-                <input className='priceadd-input'
+                <input 
+                  className='priceadd-input'
                   type="text"
                   id="exportsell"
                   name="exportsell"
@@ -189,10 +196,8 @@ function PriceAdd() {
                   onChange={handleChange}
                   required
                 />
-              </div>
-            </div>
-  
-            <div className="priceadd-inputs">
+              </div>  
+            
               <div className="priceadd-input-group">
                 <label className='priceadd-label' htmlFor="local_no_2">Local No 02:</label>
                 <input className='priceadd-input'
@@ -218,20 +223,26 @@ function PriceAdd() {
                   required
                 />
               </div>
-            </div>
-
-            <div className="priceadd-inputs">
-              <div className="priceadd-input-group">
-                <label className='priceadd-label' htmlFor="bulkbuy">Bulk Buy:</label>
-                <input className='priceadd-input'
-                  type="text"
-                  id="bulkbuy"
-                  name="bulkbuy"
-                  placeholder="Bulk Buying Price"
-                  value={formData.bulkbuy}
-                  onChange={handleChange}
-                  required
-                />
+          
+              <div className="bulkbuy-container">
+                <h3>Bulk Buy Prices</h3>
+                <div className="bulkbuy-grid">
+                  {['Guava', 'Mango', 'Banana', 'Papaya', 'Pomegranate'].map((fruit) => (
+                    <div className="priceadd-input-group" key={fruit}>
+                      <label className="priceadd-label" htmlFor={`bulkbuy_${fruit.toLowerCase()}`}>{fruit}:</label>
+                      <input
+                        className="priceadd-input"
+                        type="text"
+                        id={`bulkbuy_${fruit.toLowerCase()}`}
+                        name={`bulkbuy_${fruit.toLowerCase()}`}
+                        placeholder={`Enter ${fruit} price`}
+                        value={formData.bulkbuy[fruit.toLowerCase()]}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
   
               <div className="priceadd-input-group">
@@ -243,10 +254,12 @@ function PriceAdd() {
                   name="date"
                   value={formData.date}                                    
                   onChange={handleChange}  
-                  placeholder="Select Date"                               placeholderText="Select Date" 
+                  placeholder="Select Date"
                   required
                 />             
               </div>
+
+
             </div>
   
             <button type="submit">Add Price</button>
