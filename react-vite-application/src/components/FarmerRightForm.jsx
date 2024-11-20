@@ -9,10 +9,12 @@ const FarmerRightForm = ({
   addWeight,
   removeWeight,
   setWeightEntry,
-  handleSubmit
+  handleSubmit,
+  isComPortConnected
 }) => {
   return (
     <div className="right-form-container">
+
       {/* Weight input row */}
       <div className="form-weight-section">
         <input
@@ -20,6 +22,8 @@ const FarmerRightForm = ({
           placeholder="Enter Weight..."
           value={bucketWeight}
           onChange={handleWeightChange}
+          disabled={!isComPortConnected}
+          // readOnly= {isComPortConnected}
         />
         <button onClick={addWeight} className="add-button">+ ADD</button>
       </div>
@@ -109,7 +113,8 @@ FarmerRightForm.propTypes = {
   addWeight: PropTypes.func.isRequired,
   removeWeight: PropTypes.func.isRequired,
   setWeightEntry: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  isComPortConnected: PropTypes.bool.isRequired
 };
 
 export default FarmerRightForm;

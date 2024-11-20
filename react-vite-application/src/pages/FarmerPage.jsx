@@ -34,12 +34,122 @@ function FarmerPage() {
 
   const [tableData, setTableData] = useState([]);
   const [unitPrice, setUnitPrice] = useState(0); // State for unit price
-  const [farmerId, setFarmerId] = useState(""); 
+  const [farmerId, setFarmerId] = useState("");
   const [bucketWeight, setBucketWeight] = useState("");
 
-  
-  
+  const [isComPortConnected, setIsComPortConnected] = useState(window.serialPort?.isConnected || false);
+
   const searchInputRef = useRef(null);
+
+  // useEffect(() => {
+  //   if (!isComPortConnected) {
+  //     connectComPort();
+  //   }
+  // },[isComPortConnected]);
+
+  // Connect COM Port
+  const connectComPort = async () => {
+    try {
+      if (window.serialPort?.port) {
+        Swal.fire("Info", "COM Port is already connected.", "info");
+        setIsComPortConnected(true);
+        return;
+      }
+
+      const port = await navigator.serial.requestPort();
+      await port.open({ baudRate: 9600 });
+      window.serialPort = { port, isConnected: true };
+      setIsComPortConnected(true);
+      localStorage.setItem("isComPortConnected", true);
+      listenToComPort(port);
+      Swal.fire("Success", "COM Port connected successfully!", "success");
+    } catch (error) {
+      console.error("Error connecting to COM port:", error);
+      Swal.fire("Error", "Failed to connect to COM port. Please try again.", "error");
+    }
+  };
+
+  const bucketWeightRef = useRef("");
+
+  // Disconnect COM Port on Page Unload
+  const disconnectComPort = async () => {
+    if (window.serialPort?.port) {
+      try {
+        await window.serialPort.port.close();
+        window.serialPort = { port: null, isConnected: false };
+        setIsComPortConnected(false);
+        localStorage.setItem("isComPortConnected", false);
+        console.log("COM port closed successfully.");
+      } catch (error) {
+        console.warn("Error closing the COM port:", error);
+      }
+    }
+  };
+
+  const listenToComPort = async (port) => {
+    const textDecoder = new TextDecoderStream();
+    await port.readable.pipeTo(textDecoder.writable);
+    const reader = textDecoder.readable.getReader();
+  
+    try {
+      while (true) {
+        // Read data from the COM port
+        const { value, done } = await reader.read();
+        if (done) break;
+  
+        if (value) {
+          // Trim and process the received data
+          const trimmedValue = value.trim();
+          if (bucketWeightRef.current !== trimmedValue) {
+            bucketWeightRef.current = trimmedValue;
+            setBucketWeight(trimmedValue);
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error reading from COM port:", error);
+  
+      // Disconnect if an error occurs while reading data
+      disconnectComPort();
+      Swal.fire("Error", "COM port disconnected due to an error.", "error");
+    } finally {
+      // Release the lock on the reader
+      reader.releaseLock();
+    }
+  };
+  
+  const portRef = useRef(null);
+
+  useEffect(() => {
+    const handleUnload = () => {
+      disconnectComPort();
+    };
+
+    window.addEventListener("beforeunload", handleUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleUnload);
+    };
+  }, []);
+
+    // Add Weight Handler
+    const addWeight = () => {
+      if (!isComPortConnected) {
+        Swal.fire("Error", "Please connect to the COM port before adding weight.", "error");
+        return;
+      }
+  
+      if (bucketWeight) {
+        const newWeights = [...weightEntry.bucketWeights, parseFloat(bucketWeight)];
+        setWeightEntry({
+          ...weightEntry,
+          bucketWeights: newWeights,
+          totalWeight: newWeights.reduce((acc, w) => acc + w, 0),
+        });
+        setBucketWeight("");
+        bucketWeightRef.current = "";
+      }
+    };
 
   // Fetch all data for the table
   useEffect(() => {
@@ -220,8 +330,7 @@ function FarmerPage() {
             timerProgressBar: true,
         });
     }
-};
-
+  };
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -260,8 +369,7 @@ function FarmerPage() {
         weights: weightsArray,
         unitprice: unitPrice,
         cost: weightEntry.totalWeight * unitPrice, // Calculate cost as total weight * unit price
-      };
-      
+      };      
   
       try {
         const response = await axios.post(
@@ -320,6 +428,7 @@ function FarmerPage() {
         // Call handlePrint after successful submission
         handlePrint(payload);
         
+
       } catch (error) {
         Swal.close();
         console.error('Error submitting data:', error);
@@ -411,6 +520,13 @@ function FarmerPage() {
         onSearch={fetchFarmerData}
       />
 
+      {/* Connect Button - Visible only when not connected */}
+      {!isComPortConnected && (
+        <button onClick={connectComPort} className="connect-button">
+          Connect COM Port
+        </button>
+      )}
+
       {/* Forms Container */}
       <div className="forms-container">
         <FarmerLeftForm farmerData={farmerData} />
@@ -418,19 +534,14 @@ function FarmerPage() {
           weightEntry={weightEntry}
           bucketWeight={bucketWeight}
           handleWeightChange={(e) => setBucketWeight(e.target.value)}
-          addWeight={() => {
-            if (bucketWeight) {
-              const newWeights = [...weightEntry.bucketWeights, parseFloat(bucketWeight)];
-              setWeightEntry({ ...weightEntry, bucketWeights: newWeights, totalWeight: newWeights.reduce((acc, w) => acc + w, 0) });
-              setBucketWeight("");
-            }
-          }}
+          addWeight={addWeight}
           removeWeight={(index) => {
             const newWeights = weightEntry.bucketWeights.filter((_, i) => i !== index);
             setWeightEntry({ ...weightEntry, bucketWeights: newWeights, totalWeight: newWeights.reduce((acc, w) => acc + w, 0) });
           }}
           setWeightEntry={setWeightEntry}
-          handleSubmit={handleSubmit} // Pass handleSubmit as prop
+          handleSubmit={handleSubmit}
+          isComPortConnected={isComPortConnected}
         />
       </div>
 
