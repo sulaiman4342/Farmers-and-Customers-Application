@@ -44,7 +44,7 @@ function LoginPage() {
         
         localStorage.setItem('userRole', response.data.role);
         localStorage.setItem('user_id', response.data.user_id);
-        navigate('/registration');
+        navigate('/dashboard');
         setErrorMessage(''); // Clear any previous error messages
       } else {
         Swal.fire({
