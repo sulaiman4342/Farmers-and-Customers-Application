@@ -11,7 +11,6 @@ import './DailyPrice.css'
 function PriceAdd() {
 
   const user_id = parseInt(localStorage.getItem('user_id'), 10);
-  // const [selectedDate, setSelectedDate] = useState(null);
 
   // // Helper function to get today's date in YYYY-MM-DD format
   // const getFormattedDate = () => {
@@ -28,7 +27,7 @@ function PriceAdd() {
     local_no_2sell: '',
     grade3sell:'',
     date: new Date().toISOString().slice(0, 10),
-    bulkbuy:{
+    bulkbuy: {
       guava: '',
       mango: '',
       banana: '',
@@ -37,14 +36,24 @@ function PriceAdd() {
     },
     user_id:user_id
   });
-
   
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData)=>({
-      ...prevData,
-      [name]: value,
-    }));
+    if (name.startsWith('bulkbuy_')) {
+      const category = name.replace('bulkbuy_', '');
+      setFormData((prevData) => ({
+        ...prevData,
+        bulkbuy: {
+          ...prevData.bulkbuy,
+          [category]: value,
+        },
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -100,7 +109,13 @@ function PriceAdd() {
                   local_no_2sell: '',
                   grade3sell: '',
                   date: new Date().toISOString().slice(0, 10),
-                  bulkbuy: '',
+                  bulkbuy: {
+                    guava: '',
+                    mango: '',
+                    banana: '',
+                    papaya: '',
+                    pomegranate: '',
+                  },
                 });
   
               } else {
@@ -184,7 +199,7 @@ function PriceAdd() {
                   required
                 />
               </div>
-  
+                
               <div className="priceadd-input-group">
                 <label className='priceadd-label' htmlFor="local_no_1">Local No 01:</label>
                 <input className='priceadd-input'
@@ -258,7 +273,6 @@ function PriceAdd() {
                   required
                 />             
               </div>
-
 
             </div>
   
