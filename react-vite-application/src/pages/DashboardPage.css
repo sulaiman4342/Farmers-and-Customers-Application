@@ -137,29 +137,29 @@ canvas {
   margin-right: 20px;
 }
 
-.pagination-controls button {
+/* .pagination-controls button { */
   /* background-color: #928c8c; */
   /* color: white; */
-  border: none;
+  /* border: none;
   padding: 2px 5px;
   margin: 0 5px;
   cursor: pointer;
   font-size: 16px;
-}
+} */
 
-.pagination-controls button:disabled {
-  /* background-color: #ddd; */
-  /* color: #666; */
+.pagination-controls button:disabled { 
+  background-color: #ddd;
+  color: #666;
   cursor: not-allowed;
 }
 
 
 
-.pagination-controls span {
+/* .pagination-controls span { */
   /* background-color: white; */
-  color: rgb(57, 53, 53);
+  /* color: rgb(57, 53, 53);
   /* border: 1px solid #ddd; */
-  padding: 2px 5px;
+  /* padding: 2px 5px;
   margin: 0 0px;
   font-weight: bold;
-}
+}  */

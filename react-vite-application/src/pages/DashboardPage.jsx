@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import BarChart from '../components/BarChart';
+import LineChart from '../components/LineChart';
 import './DashboardPage.css';
 import Header from '../components/Header';
-import { Chart } from 'chart.js/auto'; 
-import { notification } from 'antd'; // Import notification for error handling
+import { notification } from 'antd';
 
 
 const Dashboard = () => {
@@ -15,20 +16,12 @@ const Dashboard = () => {
   const [isTableVisible, setIsTableVisible] = useState(false);
   const [isSaleTableVisible, setIsSaleTableVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const [currentChartPage, setCurrentChartPage] = useState(0); // For chart pagination
 
-  const user_id = parseInt(localStorage.getItem('user_id'), 10);
-  
-  const recordsPerPage = 3;
-  const chartRecordsPerPage = 4;
+  const user_id = parseInt(localStorage.getItem('user_id'), 10);  
+  const recordsPerPage = 4;
   
   const [farmers, setFarmers] = useState([]);
   const [sales, setSales] = useState([]);
-  const [chartData, setChartData] = useState({ labels: [],datasets: []  });
-
-  const chartRef = useRef(null);
-
-  const salesChartRef = useRef(null); // Create a separate reference for the sales chart
 
   //Fetch farmers data from API
   useEffect(() => {
@@ -95,7 +88,6 @@ const Dashboard = () => {
 
     return matchesFarmer && matchesCategory && matchesDate;
   });
-  
 
   const filteredSales = sales.filter((sale) =>{
     const matchesCustomer = selectedCustomer ? sale.customerName === selectedCustomer : true ;
@@ -103,11 +95,8 @@ const Dashboard = () => {
 
     return matchesCustomer && matchesSalesDate;
   });
-
-  const uniqueFarmers = [...new Set(farmers.map(farmer => farmer.farmerName))];
-
+  
   const uniqueSellers = [...new Set(sales.map(sale => sale.customerName))];
- 
 
   const handleFarmerSelect = (event) => setSelectedFarmer(event.target.value);
   const handleCategorySelect = (event) => setSelectedCategory(event.target.value);
@@ -118,7 +107,6 @@ const Dashboard = () => {
 
   const toggleTableVisibility = () => setIsTableVisible(!isTableVisible); //Toggle table visibility
   const toggleSaleTableVisibility = () => setIsSaleTableVisible(!isSaleTableVisible); //Toggle Data Table visibility
-
 
   const getPaginatedFarmers = () => {
     const startIndex = currentPage * recordsPerPage;
@@ -137,106 +125,93 @@ const Dashboard = () => {
     }
   };
 
-  // const changePage = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
+  const paginatedFarmers = getPaginatedFarmers();  
+
+  // const getChartData = (sales) => {
+  //   const labels = sales.map((sale) => sale.customerName);
+  //   const datasets = [
+  //     {
+  //       label: 'Total',
+  //       data: sales.map((sale) => sale.total),
+  //       borderColor: 'blue',
+  //       backgroundColor: 'rgba(255, 99, 132, 0.2)',
+  //     },
+  //     {
+  //       label: 'Local No 1',
+  //       data: sales.map((sale) => sale.localNo1),
+  //       borderColor: 'green',
+  //       backgroundColor: 'rgba(54, 162, 235, 0.2)',
+  //     },
+  //     {
+  //       label: 'Local No 2',
+  //       data: sales.map((sale) => sale.localNo2),
+  //       borderColor: 'orange',
+  //       backgroundColor: 'rgba(255, 159, 64, 0.2)',
+  //     },
+  //     {
+  //       label: 'Grade',
+  //       data: sales.map((sale) => sale.grade3),
+  //       borderColor: 'red',
+  //       backgroundColor: 'rgba(255, 206, 86, 0.2)',
+  //     },
+  //     {
+  //       label: 'Export',
+  //       data: sales.map((sale) => sale.export),
+  //       borderColor: 'purple',
+  //       backgroundColor: 'rgba(153, 102, 255, 0.2)',
+  //     },
+  //   ];
+  
+  //   return { labels, datasets };
   // };
 
-  // const totalTablePages = Math.ceil(filteredFarmers.length / recordsPerPage);
-
-  // const nextChartPage = () => {
-  //   if ((currentChartPage + 1) * chartRecordsPerPage < filteredFarmers.length) {
-  //     setCurrentChartPage(currentChartPage + 1);
+  // useEffect(() => {
+  //   // Clean up existing chart instance if any
+  //   if (salesChartRef.current) {
+  //     salesChartRef.current.destroy();
   //   }
-  // };
+  
+  //   const ctx = document.getElementById('myChart').getContext('2d');  // Canvas for sales chart
+  //   const salesChartData = getChartData(filteredSales); // Get prepared data for sales chart
+  
+  //   // Create and configure the sales chart instance (presumably a line chart)
+  //   const salesChartInstance = new Chart(ctx, {
+  //     type: 'line', // Set chart type to line
+  //     data: salesChartData,
+  //     options: {
+  //       responsive: true, // Adjust chart based on screen size
+  //       maintainAspectRatio: false, // Allow better scaling for line chart
+  //       scales: {
+  //         y: {  // Change yAxes to y
+  //           beginAtZero: true,  // Ensure the y-axis starts at zero
+  //           max: 1000, // Adjust the max value of the Y-axis (customize based on your data)
+  //           ticks: {
+  //             stepSize: 20,  // Define the interval between Y-axis ticks (adjust as needed)
+  //           },
+  //           font: {
+  //               size: 15
+  //             } 
+  //         },
+  //         x: {  
+  //           font: {
+  //               size: 15
+  //             }
+  //         }
+  //         // plugins: {
+  //           // legend: {
+  //           //   // position: 'bottom', //Move legend to the bottom
+  //           // }
+          
+  //       }
+  //     }
+  //   });
+  
+  //   salesChartRef.current = salesChartInstance;
+  // }, [filteredSales]); // Update sales chart on changes in filteredSales
 
-  // const prevChartPage = () => {
-  //   if (currentChartPage > 0) {
-  //     setCurrentChartPage(currentChartPage - 1);
-  //   }
-  // };
-
-  // Clean up and update chart whenever the filtered farmers change
-  useEffect(() => {
-    if (chartRef.current) {
-      chartRef.current.destroy();
-    }
-
-    const ctx = document.getElementById('main-chart').getContext('2d');
-
-    const startChartIndex = currentChartPage * chartRecordsPerPage;
-    const chartFarmers = filteredFarmers.slice(startChartIndex, startChartIndex + chartRecordsPerPage);
-
-    const farmerNames = filteredFarmers.slice(0, 4).map(farmer => farmer.farmerName);
-    const totals = filteredFarmers.slice(0, 4).map(farmer => farmer.total);
-    const goodContents = filteredFarmers.slice(0, 4).map(farmer => farmer.goodContent);
-    const disposals = filteredFarmers.slice(0, 4).map(farmer => farmer.disposal);
-
-    const chartInstance = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: farmerNames,
-        datasets: [
-          { label: 'Total', data: totals, backgroundColor: 'lightblue' },
-          { label: 'Good Content', data: goodContents, backgroundColor: 'lightgreen' },
-          { label: 'Disposal', data: disposals, backgroundColor: 'red' }
-        ]
-      },
-      options: {
-        responsive: true,
-        aspectRatio: 1.0, // Adjusted for larger chart with wider distribution
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom',
-            font: {
-                size: 15
-              }            
-          },
-          tooltip: {
-            callbacks: {
-              label: function(tooltipItem) {
-                const index = tooltipItem.dataIndex;
-                const farmer = filteredFarmers[index];
-                return [
-                  `Total: ${farmer.total}`,
-                  `Good Content: ${farmer.goodContent}`,
-                  `Disposal: ${farmer.disposal}`
-                ];
-              }
-            }
-          }
-        },
-        scales: {
-          x: {
-            ticks: {
-              font: {
-                size: 15 // Smaller font size for x-axis labels
-              }
-            },
-            grid: {
-              display: false // Optional: Hide x-axis grid lines for better readability
-            },
-            barPercentage: 0.6, // Make bars narrower
-            categoryPercentage: 0.5 // Increase the spacing between categories for wider distribution
-          },
-          y: {
-            beginAtZero: true,
-            ticks: {
-              font: {
-                size: 15 // Smaller font size for y-axis labels
-              }
-            }
-          }
-        }
-      }
-    });
-
-    chartRef.current = chartInstance;
-  }, [filteredFarmers, currentChartPage]);
-
-  const getChartData = (sales) => {
-    const labels = sales.map((sale) => sale.customerName);
-    const datasets = [
+  const lineChartData = {
+    labels: filteredSales.map((sale) => sale.customerName),
+    datasets: [
       {
         label: 'Total',
         data: sales.map((sale) => sale.total),
@@ -267,54 +242,8 @@ const Dashboard = () => {
         borderColor: 'purple',
         backgroundColor: 'rgba(153, 102, 255, 0.2)',
       },
-    ];
-  
-    return { labels, datasets };
+    ],
   };
-
-  useEffect(() => {
-    // Clean up existing chart instance if any
-    if (salesChartRef.current) {
-      salesChartRef.current.destroy();
-    }
-  
-    const ctx = document.getElementById('myChart').getContext('2d');  // Canvas for sales chart
-    const salesChartData = getChartData(filteredSales); // Get prepared data for sales chart
-  
-    // Create and configure the sales chart instance (presumably a line chart)
-    const salesChartInstance = new Chart(ctx, {
-      type: 'line', // Set chart type to line
-      data: salesChartData,
-      options: {
-        responsive: true, // Adjust chart based on screen size
-        maintainAspectRatio: false, // Allow better scaling for line chart
-        scales: {
-          y: {  // Change yAxes to y
-            beginAtZero: true,  // Ensure the y-axis starts at zero
-            max: 1000, // Adjust the max value of the Y-axis (customize based on your data)
-            ticks: {
-              stepSize: 20,  // Define the interval between Y-axis ticks (adjust as needed)
-            },
-            font: {
-                size: 15
-              } 
-          },
-          x: {  
-            font: {
-                size: 15
-              }
-          }
-          // plugins: {
-            // legend: {
-            //   // position: 'bottom', //Move legend to the bottom
-            // }
-          
-        }
-      }
-    });
-  
-    salesChartRef.current = salesChartInstance;
-  }, [filteredSales]); // Update sales chart on changes in filteredSales
 
   return (
     <div className="dashboardPage-container">
@@ -323,7 +252,7 @@ const Dashboard = () => {
         <div className="dropdown-container">
           <select id="farmer-select" value={selectedFarmer} onChange={handleFarmerSelect}>
             <option value="">Select Farmer</option>
-            {uniqueFarmers.map((farmerName,index) => (
+            {[...new Set(farmers.map((farmer) => farmer.farmerName))].map((farmerName, index) => (
               <option key={index} value={farmerName}>
                 {farmerName}
               </option>
@@ -351,17 +280,13 @@ const Dashboard = () => {
       {/* Main chart container */}
       <div className="chart-container" style={{ overflowX: 'scroll' }}>
         <div className="chart-box">
-          <canvas id="main-chart"></canvas>
+          <BarChart chartData={paginatedFarmers} />
         </div>
-        {/* <div className="chart-pagination">
-          <button onClick={prevChartPage} disabled={currentChartPage === 0}>Previous</button>
-          <button onClick={nextChartPage} disabled={(currentChartPage + 1) * chartRecordsPerPage >= filteredFarmers.length}>Next</button>
-        </div> */}
       </div>
 
       {/* Toggle button for farmer table */}
       <button className='toggle-button' onClick={toggleTableVisibility}>
-      {isTableVisible? 'Hide Table' : 'Show Table'}
+        {isTableVisible? 'Hide Table' : 'Show Table'}
       </button>
 
       {isTableVisible && filteredFarmers.length > 0 ? (
@@ -385,7 +310,7 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                  {getPaginatedFarmers().map((farmer) => (
+                  {paginatedFarmers.map((farmer) => (
                   <tr key={farmer.id}>
                     <td>{farmer.farmerName}</td>
                     <td>{farmer.containerNumber}</td>
@@ -403,12 +328,14 @@ const Dashboard = () => {
                 ))}
               </tbody>
             </table>
+
+            <div className="pagination-controls">
+              <button onClick={prevPage} disabled={currentPage === 0}> &larr; </button>
+              <span> {currentPage + 1} </span>
+              <button onClick={nextPage} disabled={(currentPage + 1) * recordsPerPage >= filteredFarmers.length}> &rarr;</button>
+            </div>
           </div>
-          <div className="pagination-controls">
-            <button onClick={prevPage} disabled={currentPage === 0}> &larr; </button>
-            <span> {currentPage + 1} </span>
-            <button onClick={nextPage} disabled={(currentPage + 1) * recordsPerPage >= filteredFarmers.length}> &rarr;</button>
-          </div>
+          
         </div>
       ) : (
         isTableVisible && filteredFarmers.length === 0 && <p className= 'no-farmers-found-message'>No farmers found matching the selected filters.</p>
@@ -436,7 +363,7 @@ const Dashboard = () => {
 
       <div className="chart-container">
         <div className='line-chart-box'>
-          <canvas id="myChart"></canvas>
+          <LineChart chartData={lineChartData} />
         </div>
       </div>
       
@@ -477,8 +404,7 @@ const Dashboard = () => {
         </div>
       ) : (
         isSaleTableVisible && filteredSales.length === 0 && <p className='no-sales-found-message'>No sales found matching the selected filters.</p>
-        )}
-        
+        )}        
     </div>
   );
 };
