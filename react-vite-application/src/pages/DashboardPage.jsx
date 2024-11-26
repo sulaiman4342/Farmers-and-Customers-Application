@@ -42,7 +42,8 @@ const Dashboard = () => {
           disposal: item.disposal ? parseFloat(item.disposal) : 0,
           goodContent: item.goodcontent ? parseFloat(item.goodcontent) : parseFloat(item.total),
           unitPrice: parseFloat(item.unitprice),
-        }));
+        }))
+        .reverse(); // Reverse the data to show latest first;
         setFarmers(formattedFarmers);
       })
       .catch(error => {
@@ -69,7 +70,8 @@ const Dashboard = () => {
             grade3: item.grade3, 
             total: item.total, 
             cost: item.cost, 
-          }));
+          }))
+          .reverse(); // Reverse the data to show latest first;
           setSales(formattedSales);
         })
         .catch(error => {
