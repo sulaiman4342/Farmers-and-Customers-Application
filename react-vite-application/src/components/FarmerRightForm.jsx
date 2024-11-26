@@ -5,6 +5,7 @@ import './styles/FarmerRightForm.css';
 const FarmerRightForm = ({
   weightEntry,
   bucketWeight,
+  unitPrice,
   handleWeightChange,
   addWeight,
   removeWeight,
@@ -87,9 +88,9 @@ const FarmerRightForm = ({
           <div className="form-row">
             <label>Unit Price:</label>
             <input
-              type="number"
-              value={weightEntry.unitPrice}
-              onChange={(e) => setWeightEntry({ ...weightEntry, unitPrice: parseInt(e.target.value, 10 || 0) })}
+              type="text"
+              value={unitPrice}
+              readOnly
             />
           </div>
         </div>
@@ -109,6 +110,7 @@ FarmerRightForm.propTypes = {
     bucketWeights: PropTypes.arrayOf(PropTypes.number),
   }).isRequired,
   bucketWeight: PropTypes.string.isRequired,
+  unitPrice: PropTypes.number.isRequired,
   handleWeightChange: PropTypes.func.isRequired,
   addWeight: PropTypes.func.isRequired,
   removeWeight: PropTypes.func.isRequired,
