@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './AdminUserView.css';
@@ -26,7 +26,7 @@ const AdminUserView = () => {
   // Define bounds for Sri Lanka (approximate coordinates)
   const sriLankaBounds = [
     [5.6, 81.4], // Southwest corner
-    [10.0, 81.7], // Northeast corner
+    [10.3, 81.7], // Northeast corner
   ];
 
   // Map component to update view on hover
@@ -88,6 +88,11 @@ const AdminUserView = () => {
                 <br />
                 Location: {user.location}
               </Popup>
+              {hoveredUser?.user_id === user.user_id && (
+                <Tooltip permanent direction="top" offset={[0, -15]}>
+                  User: {user.name}, Location: {user.location}
+                </Tooltip>
+              )}
             </Marker>
           ))}
         </MapContainer>
