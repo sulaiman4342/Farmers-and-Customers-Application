@@ -12,48 +12,26 @@ function PriceAdd() {
 
   const user_id = parseInt(localStorage.getItem('user_id'), 10);
 
-  // // Helper function to get today's date in YYYY-MM-DD format
-  // const getFormattedDate = () => {
-  //   const today = new Date();
-  //   const year = today.getFullYear();
-  //   const month = String(today.getMonth() + 1).padStart(2, '0'); // padStart ensures 2-digit month
-  //   const day = String(today.getDate()).padStart(2, '0'); // padStart ensures 2-digit day
-  //   return `${year}-${month}-${day}`;
-  // };
-
   const [formData, setFormData] = useState({
     exportsell: '',
     local_no_1sell: '',
     local_no_2sell: '',
     grade3sell:'',
     date: new Date().toISOString().slice(0, 10),
-    bulkbuy: {
-      guava: '',
-      mango: '',
-      banana: '',
-      papaya: '',
-      pomegranate: '',
-    },
+    bulkbuy_papaya: '',
+    bulkbuy_guava: '',
+    bulkbuy_mango: '',
+    bulkbuy_banana: '',
+    bulkbuy_pomagranate: '',
     user_id:user_id
   });
   
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name.startsWith('bulkbuy_')) {
-      const category = name.replace('bulkbuy_', '');
-      setFormData((prevData) => ({
-        ...prevData,
-        bulkbuy: {
-          ...prevData.bulkbuy,
-          [category]: value,
-        },
-      }));
-    } else {
-      setFormData((prevData) => ({
+    setFormData((prevData) => ({
         ...prevData,
         [name]: value,
       }));
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -81,7 +59,7 @@ function PriceAdd() {
             console.log(loginResponse.status);
 
             const payload = {
-                ...formData              
+                ...formData             
               };
 
             try {
@@ -109,13 +87,12 @@ function PriceAdd() {
                   local_no_2sell: '',
                   grade3sell: '',
                   date: new Date().toISOString().slice(0, 10),
-                  bulkbuy: {
-                    guava: '',
-                    mango: '',
-                    banana: '',
-                    papaya: '',
-                    pomegranate: '',
-                  },
+                  bulkbuy_papaya: '',
+                  bulkbuy_guava: '',
+                  bulkbuy_mango: '',
+                  bulkbuy_banana: '',
+                  bulkbuy_pomagranate: '',
+                  user_id: user_id,               
                 });
   
               } else {
@@ -139,7 +116,7 @@ function PriceAdd() {
                 description: 'failed due to a network error.',
               });
             }
-            // End of form submission logic
+
             
           } else {
             // Handle login failure
@@ -242,21 +219,77 @@ function PriceAdd() {
               <div className="bulkbuy-container">
                 <h3>Bulk Buy Prices</h3>
                 <div className="bulkbuy-grid">
-                  {['Guava', 'Mango', 'Banana', 'Papaya', 'Pomegranate'].map((fruit) => (
-                    <div className="priceadd-input-group" key={fruit}>
-                      <label className="priceadd-label" htmlFor={`bulkbuy_${fruit.toLowerCase()}`}>{fruit}:</label>
+                  
+                    <div className="priceadd-input-group" >
+                      <label className="priceadd-label" htmlFor="bulkbuy_papaya">Papaya:</label>
                       <input
                         className="priceadd-input"
                         type="text"
-                        id={`bulkbuy_${fruit.toLowerCase()}`}
-                        name={`bulkbuy_${fruit.toLowerCase()}`}
-                        placeholder={`Enter ${fruit} price`}
-                        value={formData.bulkbuy[fruit.toLowerCase()]}
+                        id="bulkbuy_papaya" 
+                        name="bulkbuy_papaya"
+                        placeholder= "Buying price"
+                        value={formData.bulkbuy_papaya}
                         onChange={handleChange}
                         required
                       />
                     </div>
-                  ))}
+
+                    <div className="priceadd-input-group" >
+                      <label className="priceadd-label" htmlFor="bulkbuy_guava">Guava:</label>
+                      <input
+                        className="priceadd-input"
+                        type="text"
+                        id="bulkbuy_guava" 
+                        name="bulkbuy_guava"
+                        placeholder= "Buying price"
+                        value={formData.bulkbuy_guava}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+
+                    <div className="priceadd-input-group" >
+                      <label className="priceadd-label" htmlFor="bulkbuy_mango">Mango:</label>
+                      <input
+                        className="priceadd-input"
+                        type="text"
+                        id="bulkbuy_mango" 
+                        name="bulkbuy_mango"
+                        placeholder= "Buying price"
+                        value={formData.bulkbuy_mango}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+
+                    <div className="priceadd-input-group" >
+                      <label className="priceadd-label" htmlFor="bulkbuy_banana">Banana:</label>
+                      <input
+                        className="priceadd-input"
+                        type="text"
+                        id="bulkbuy_banana" 
+                        name="bulkbuy_banana"
+                        placeholder= "Bulying price"
+                        value={formData.bulkbuy_banana}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+
+                    <div className="priceadd-input-group" >
+                      <label className="priceadd-label" htmlFor="bulkbuy_pomagranate">Pomegranate:</label>
+                      <input
+                        className="priceadd-input"
+                        type="text"
+                        id="bulkbuy_pomagranate" 
+                        name="bulkbuy_pomagranate"
+                        placeholder= "Bulying price"
+                        value={formData.bulkbuy_pomagranate}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                  
                 </div>
               </div>
   
