@@ -44,7 +44,14 @@ function LoginPage() {
         
         localStorage.setItem('userRole', response.data.role);
         localStorage.setItem('user_id', response.data.user_id);
-        navigate('/dashboard');
+
+        // navigate based on user role
+        if(username === 'Administrator'){
+          navigate('/adminUserview');
+        } else {
+          navigate('/dashboard');
+        }
+        
         setErrorMessage(''); // Clear any previous error messages
       } else {
         Swal.fire({

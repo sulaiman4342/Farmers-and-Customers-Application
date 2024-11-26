@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegistrationPage from './pages/RegistrationPage';
 import CustomerListPage from './pages/CustomerListPage';
@@ -15,23 +15,65 @@ import AboutUs from './pages/AboutUs';
 import AdminUserView from './pages/AdminUserView';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('userRole');
+    setUsername(storedUsername || '');
+    setIsLoggedIn(Boolean(storedUsername));
+  }, []);
+
   return (
     <Router>
       <div className="App">
         <main>
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<LoginPage />} />
-            <Route path="/registration" element={<RegistrationPage />} />
-            <Route path="/customer-list" element={<CustomerListPage />} />
-            <Route path="/farmer-list" element={<FarmerRegistrationPage />} />
-            <Route path="/customer-registration" element={<CustomerRegistrationForm />} />
-            <Route path="/farmer-registration" element={<FarmerRegistrationForm />} />
-            <Route path="/daily-price" element={< PriceAdd />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/farmerPage" element={<FarmerPage />} />
-            <Route path="/customerPage" element={<CustomerPage />} />
             <Route path="/aboutUs" element={<AboutUs />} />
-            <Route path="/adminUserview" element={<AdminUserView />} />
+
+            {/* Protected Routes */}
+            <Route
+              path="/dashboard"
+              element={isLoggedIn ? <Dashboard /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/adminUserview"
+              element={isLoggedIn && username === 'Administrator' ? <AdminUserView /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/registration"
+              element={isLoggedIn ? <RegistrationPage /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/customer-list"
+              element={isLoggedIn ? <CustomerListPage /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/farmer-list"
+              element={isLoggedIn ? <FarmerRegistrationPage /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/customer-registration"
+              element={isLoggedIn ? <CustomerRegistrationForm /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/farmer-registration"
+              element={isLoggedIn ? <FarmerRegistrationForm /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/daily-price"
+              element={isLoggedIn ? <PriceAdd /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/farmerPage"
+              element={isLoggedIn ? <FarmerPage /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/customerPage"
+              element={isLoggedIn ? <CustomerPage /> : <Navigate to="/" />}
+            />
           </Routes>
         </main>
         <Footer />
