@@ -46,7 +46,6 @@
   width: 100%;
   border-collapse: collapse;
   min-width: 800px; /* Ensures the table doesn't shrink too small on smaller screens */
-  
 }
 
 .farmer-details table, th, td, .sales-details-table {

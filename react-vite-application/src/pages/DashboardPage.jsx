@@ -6,7 +6,6 @@ import './DashboardPage.css';
 import Header from '../components/Header';
 import { notification } from 'antd';
 
-
 const Dashboard = () => {
   const [selectedFarmer, setSelectedFarmer] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -15,10 +14,13 @@ const Dashboard = () => {
   const [selectedSalesDate, setSeletedSalesDate] = useState('');
   const [isTableVisible, setIsTableVisible] = useState(false);
   const [isSaleTableVisible, setIsSaleTableVisible] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [farmerPage, setFarmerPage] = useState(0); // For farmers pagination
+  const [salesPage, setSalesPage] = useState(0); // For sales pagination
 
-  const user_id = parseInt(localStorage.getItem('user_id'), 10);  
-  const recordsPerPage = 4;
+  const user_id = parseInt(localStorage.getItem('user_id'), 10);
+
+  const farmerRecordsPerPage = 5; // Separate limit for farmers (BarChart)
+  const salesRecordsPerPage = 9; // Separate limit for sales (LineChart)
   
   const [farmers, setFarmers] = useState([]);
   const [sales, setSales] = useState([]);
@@ -55,33 +57,33 @@ const Dashboard = () => {
       });
   }, [user_id]);
   
-    // Fetch sales data from API
-    useEffect(() => {
-      axios.get('http://64.227.152.179:8080/weighingSystem-1/stocksell/all')
-        .then(response => {
-          const filteredSalesData = response.data.filter(item => item.seller.users.id === user_id);
-          const formattedSales = filteredSalesData.map(item => ({
-            id: item.id,
-            customerName: item.sellername,
-            date: item.date, 
-            export: item.export, 
-            localNo1: item.local_no_1, 
-            localNo2: item.local_no_2, 
-            grade3: item.grade3, 
-            total: item.total, 
-            cost: item.cost, 
-          }))
-          .reverse(); // Reverse the data to show latest first;
-          setSales(formattedSales);
-        })
-        .catch(error => {
-          console.error('Error fetching sales data:', error);
-          notification.error({
-            message: 'Error!',
-            description: 'Error loading sales data from the server.',
-          });
+  // Fetch sales data from API
+  useEffect(() => {
+    axios.get('http://64.227.152.179:8080/weighingSystem-1/stocksell/all')
+      .then(response => {
+        const filteredSalesData = response.data.filter(item => item.seller.users.id === user_id);
+        const formattedSales = filteredSalesData.map(item => ({
+          id: item.id,
+          customerName: item.sellername,
+          date: item.date,
+          export: item.export,
+          localNo1: item.local_no_1,
+          localNo2: item.local_no_2,
+          grade3: item.grade3,
+          total: item.total,
+          cost: item.cost,
+        }))
+        .reverse(); // Reverse the data to show latest first;
+        setSales(formattedSales);
+      })
+      .catch(error => {
+        console.error('Error fetching sales data:', error);
+        notification.error({
+          message: 'Error!',
+          description: 'Error loading sales data from the server.',
         });
-    }, [user_id])
+      });
+  }, [user_id]) 
 
   const filteredFarmers = farmers.filter((farmer) => {
     const matchesFarmer = selectedFarmer ? farmer.farmerName === selectedFarmer : true;
@@ -110,142 +112,28 @@ const Dashboard = () => {
   const toggleTableVisibility = () => setIsTableVisible(!isTableVisible); //Toggle table visibility
   const toggleSaleTableVisibility = () => setIsSaleTableVisible(!isSaleTableVisible); //Toggle Data Table visibility
 
-  const getPaginatedFarmers = () => {
-    const startIndex = currentPage * recordsPerPage;
-    return filteredFarmers.slice(startIndex, startIndex + recordsPerPage);
-  };
-
-  const nextPage = () => {
-    if ((currentPage + 1) * recordsPerPage < filteredFarmers.length) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const prevPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const paginatedFarmers = getPaginatedFarmers();  
-
-  // const getChartData = (sales) => {
-  //   const labels = sales.map((sale) => sale.customerName);
-  //   const datasets = [
-  //     {
-  //       label: 'Total',
-  //       data: sales.map((sale) => sale.total),
-  //       borderColor: 'blue',
-  //       backgroundColor: 'rgba(255, 99, 132, 0.2)',
-  //     },
-  //     {
-  //       label: 'Local No 1',
-  //       data: sales.map((sale) => sale.localNo1),
-  //       borderColor: 'green',
-  //       backgroundColor: 'rgba(54, 162, 235, 0.2)',
-  //     },
-  //     {
-  //       label: 'Local No 2',
-  //       data: sales.map((sale) => sale.localNo2),
-  //       borderColor: 'orange',
-  //       backgroundColor: 'rgba(255, 159, 64, 0.2)',
-  //     },
-  //     {
-  //       label: 'Grade',
-  //       data: sales.map((sale) => sale.grade3),
-  //       borderColor: 'red',
-  //       backgroundColor: 'rgba(255, 206, 86, 0.2)',
-  //     },
-  //     {
-  //       label: 'Export',
-  //       data: sales.map((sale) => sale.export),
-  //       borderColor: 'purple',
-  //       backgroundColor: 'rgba(153, 102, 255, 0.2)',
-  //     },
-  //   ];
-  
-  //   return { labels, datasets };
+  // const getPaginatedFarmers = () => {
+  //   const startIndex = currentPage * recordsPerPage;
+  //   return filteredFarmers.slice(startIndex, startIndex + recordsPerPage);
   // };
-
-  // useEffect(() => {
-  //   // Clean up existing chart instance if any
-  //   if (salesChartRef.current) {
-  //     salesChartRef.current.destroy();
-  //   }
-  
-  //   const ctx = document.getElementById('myChart').getContext('2d');  // Canvas for sales chart
-  //   const salesChartData = getChartData(filteredSales); // Get prepared data for sales chart
-  
-  //   // Create and configure the sales chart instance (presumably a line chart)
-  //   const salesChartInstance = new Chart(ctx, {
-  //     type: 'line', // Set chart type to line
-  //     data: salesChartData,
-  //     options: {
-  //       responsive: true, // Adjust chart based on screen size
-  //       maintainAspectRatio: false, // Allow better scaling for line chart
-  //       scales: {
-  //         y: {  // Change yAxes to y
-  //           beginAtZero: true,  // Ensure the y-axis starts at zero
-  //           max: 1000, // Adjust the max value of the Y-axis (customize based on your data)
-  //           ticks: {
-  //             stepSize: 20,  // Define the interval between Y-axis ticks (adjust as needed)
-  //           },
-  //           font: {
-  //               size: 15
-  //             } 
-  //         },
-  //         x: {  
-  //           font: {
-  //               size: 15
-  //             }
-  //         }
-  //         // plugins: {
-  //           // legend: {
-  //           //   // position: 'bottom', //Move legend to the bottom
-  //           // }
-          
-  //       }
-  //     }
-  //   });
-  
-  //   salesChartRef.current = salesChartInstance;
-  // }, [filteredSales]); // Update sales chart on changes in filteredSales
-
-  const lineChartData = {
-    labels: filteredSales.map((sale) => sale.customerName),
-    datasets: [
-      {
-        label: 'Total',
-        data: sales.map((sale) => sale.total),
-        borderColor: 'blue',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-      },
-      {
-        label: 'Local No 1',
-        data: sales.map((sale) => sale.localNo1),
-        borderColor: 'green',
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-      },
-      {
-        label: 'Local No 2',
-        data: sales.map((sale) => sale.localNo2),
-        borderColor: 'orange',
-        backgroundColor: 'rgba(255, 159, 64, 0.2)',
-      },
-      {
-        label: 'Grade',
-        data: sales.map((sale) => sale.grade3),
-        borderColor: 'red',
-        backgroundColor: 'rgba(255, 206, 86, 0.2)',
-      },
-      {
-        label: 'Export',
-        data: sales.map((sale) => sale.export),
-        borderColor: 'purple',
-        backgroundColor: 'rgba(153, 102, 255, 0.2)',
-      },
-    ],
+  // Paginate farmers and sales data
+  const getPaginatedData = (data, page, limit) => {
+    const startIndex = page * limit;
+    return data.slice(startIndex, startIndex + limit);
   };
+
+  const nextPage = (setPage, data, limit) => {
+    setPage((prevPage) =>
+      (prevPage + 1) * limit < data.length ? prevPage + 1 : prevPage
+    );
+  };
+
+  const prevPage = (setPage) => {
+    setPage((prevPage) => (prevPage > 0 ? prevPage - 1 : prevPage));
+  };
+
+  const paginatedFarmers = getPaginatedData(filteredFarmers, farmerPage, farmerRecordsPerPage);
+  const paginatedSales = getPaginatedData(filteredSales, salesPage, salesRecordsPerPage);
 
   return (
     <div className="dashboardPage-container">
@@ -332,12 +220,11 @@ const Dashboard = () => {
             </table>
 
             <div className="pagination-controls">
-              <button onClick={prevPage} disabled={currentPage === 0}> &larr; </button>
-              <span> {currentPage + 1} </span>
-              <button onClick={nextPage} disabled={(currentPage + 1) * recordsPerPage >= filteredFarmers.length}> &rarr;</button>
+              <button onClick={() => prevPage(setFarmerPage)} disabled={farmerPage === 0}> &larr; </button>
+              <span> {farmerPage + 1} </span>
+              <button onClick={() => nextPage(setFarmerPage, filteredFarmers)} disabled={(farmerPage + 1) * farmerRecordsPerPage >= filteredFarmers.length}> &rarr;</button>
             </div>
-          </div>
-          
+          </div>          
         </div>
       ) : (
         isTableVisible && filteredFarmers.length === 0 && <p className= 'no-farmers-found-message'>No farmers found matching the selected filters.</p>
@@ -365,7 +252,7 @@ const Dashboard = () => {
 
       <div className="chart-container">
         <div className='line-chart-box'>
-          <LineChart chartData={lineChartData} />
+          <LineChart chartData={paginatedSales} />
         </div>
       </div>
       
@@ -389,7 +276,7 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredSales.map((sale) => (
+              {paginatedSales.map((sale) => (
                 <tr key={sale.id}>
                   <td>{sale.customerName}</td>
                   <td>{sale.date}</td>
@@ -403,6 +290,11 @@ const Dashboard = () => {
               ))}
             </tbody>
           </table>
+          <div className="pagination-controls">
+              <button onClick={() => prevPage(setSalesPage)} disabled={salesPage === 0}> &larr; </button>
+              <span> {salesPage + 1} </span>
+              <button onClick={() => nextPage(setSalesPage, filteredSales)} disabled={(salesPage + 1) * salesRecordsPerPage >= filteredSales.length}> &rarr;</button>
+            </div>
         </div>
       ) : (
         isSaleTableVisible && filteredSales.length === 0 && <p className='no-sales-found-message'>No sales found matching the selected filters.</p>
