@@ -11,7 +11,7 @@ function CustomerList( ) {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [qrData, setQrData] = useState('');
+  const [qrData, setQrData] = useState({});
   const [isQrVisible, setIsQrVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -31,7 +31,8 @@ function CustomerList( ) {
           firstName:seller.firstname,
           lastName: seller.lastname,
           idNumber:seller.idnumber,
-          contactNumber:seller.connumber
+          contactNumber:seller.connumber,
+          formattedShowId: seller.formattedShowId
         }));
         setCustomers(filteredData);
         setLoading(false);
@@ -44,8 +45,14 @@ function CustomerList( ) {
   };
 
   const generateQrCode = (customer) => {
-    const qrString = `ID: ${customer.id}, Name: ${customer.firstName} ${customer.lastName}, Contact: ${customer.contactNumber}`;
-    setQrData(qrString);
+      setQrData({
+      id: customer.id,
+      firstName: customer.firstName,
+      lastName: customer.lastName,
+      idNumber: customer.idNumber,
+      contactNumber: customer.contactNumber,
+      formattedShowId: customer.formattedShowId
+    });
     setIsQrVisible(true);
   };
 
@@ -54,18 +61,18 @@ function CustomerList( ) {
     const svgData = new XMLSerializer().serializeToString(svg);
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    const img = document.createElement('img');
-    img.setAttribute('src', 'data:image/svg+xml;base64,' + btoa(svgData));
-    img.onload = function () {
+    const img = new Image();
+    img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
       const pngFile = canvas.toDataURL('image/png');
-
-      const downloadLink = document.createElement('a');
-      downloadLink.href = pngFile;
-      downloadLink.download = `${qrData.split(',')[0].split(': ')[1]}.png`;
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
+      const link = document.createElement('a');
+      link.href = pngFile;
+      link.download = `farmer_${qrData.id}.png`;
+      link.click();
     };
   };
 
@@ -77,24 +84,51 @@ function CustomerList( ) {
           <title>Print QR Code</title>
           <style>
             body {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              height: 100vh;
-              margin: 0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            }
+            .qr-code-container {
+            display: flex;
+            border: 1px solid #ccc;
+            width: 70%;
+            padding: 10px;
+            text-align: center;
+            justify-content: space-between;
+            }
+            .left-section, .right-section {
+            flex: 1;
+            text-align: center;
+            }
+            .right-section {
+            background-color: #f4f4f4;
+            padding: 20px;
             }
           </style>
         </head>
         <body>
-          <div style="text-align: center;">
-            <h3>QR Code</h3>
-            <div id="qrToPrint">${document.getElementById('qrCanvas').outerHTML}</div>
+          <div class="qr-code-container">
+            <div class="left-section">
+              <h3>Customer QR Code</h3>
+              ${document.getElementById('qrCanvas').outerHTML}
+              <p>ID: ${qrData.formattedShowId || 'N/A'}</p>
+            </div>
+            <div class="right-section">
+              <h2>Customer Name: ${qrData.firstName} ${qrData.lastName}</h3>
+              <h3>NIC: ${qrData.idNumber || 'N/A'}</h3>
+              <br><br><br><br><br>
+              <p>www.sanotaglobal.com</p>
+            </div>
           </div>
           <script>
             window.onload = function() {
               window.print();
               window.onafterprint = function() {
-                window.close();
+              window.close();
               };
             };
           </script>
