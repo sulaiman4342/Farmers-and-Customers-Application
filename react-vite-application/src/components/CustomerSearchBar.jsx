@@ -1,8 +1,8 @@
 // File: src/components/CustomerSearchBar.jsx
-import React from 'react';
+import React, { forwardRef } from 'react';
 import './styles/CustomerSearchBar.css'; 
 
-const CustomerSearchBar = ({ customerId, setCustomerId, handleCustomerSearch }) => {
+const CustomerSearchBar = forwardRef(({ customerId, setCustomerId, handleCustomerSearch }, ref) => {
   return (
     <div className="search-bar-container">
       <input
@@ -11,10 +11,11 @@ const CustomerSearchBar = ({ customerId, setCustomerId, handleCustomerSearch }) 
         value={customerId}
         onChange={(e) => setCustomerId(e.target.value)}
         className="customer-page-search-bar"
+        ref={ref}
       />
       <button onClick={handleCustomerSearch} className="customer-select-button">Select</button>
     </div>
   );
-};
+});
 
 export default CustomerSearchBar;

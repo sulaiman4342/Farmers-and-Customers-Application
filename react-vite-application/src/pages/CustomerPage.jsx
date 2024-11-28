@@ -35,6 +35,12 @@ function CustomerPage() {
 
   const user_id = parseInt(localStorage.getItem('user_id'), 10);
 
+  const searchInputRef = useRef(null);
+
+  useEffect(() =>{
+    searchInputRef.current?.focus();
+  }, []);
+
   // Function to fetch customer details from the backend based on customerId
   const fetchCustomerDetails = async (customerId) => {
     const apiUrl = `http://64.227.152.179:8080/weighingSystem-1/seller/showId/${customerId}`;
@@ -475,6 +481,7 @@ function CustomerPage() {
         customerId={customerId}
         setCustomerId={setCustomerId}
         handleCustomerSearch={handleCustomerSearch}
+        ref = {searchInputRef}
       />
       <div className="forms-container">
         <CustomerLeftForm customerData={customerData} />
