@@ -11,7 +11,7 @@ const FarmerList = () => {
   const [farmers, setFarmers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [qrData, setQrData] = useState('');
+  const [qrData, setQrData] = useState([]);
   const [isQrVisible, setIsQrVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFarmer, setSelectedFarmer] = useState(null);
@@ -49,9 +49,18 @@ const FarmerList = () => {
   };
 
   const generateQrCode = (farmer) => {
-    const qrString = `ID: ${farmer.id}, Name: ${farmer.firstName} ${farmer.lastName}, Contact: ${farmer.contactNumber}, Growing Area: ${farmer.growingArea}, Field Size: ${farmer.fieldSize}, Fruit Category: ${farmer.fruitCategory}`;
-    setQrData(qrString);
-    setIsQrVisible(true); // Show the QR code section
+    setQrData({
+      id: farmer.id,
+      firstName: farmer.firstName,
+      lastName: farmer.lastName,
+      idNumber: farmer.idNumber,
+      contactNumber: farmer.contactNumber,
+      growingArea: farmer.growingArea,
+      fieldSize: farmer.fieldSize,
+      fruitCategory: farmer.fruitCategory,
+      formattedShowId: farmer.formattedShowId,
+    });
+    setIsQrVisible(true);
   };
 
   const downloadQR = () => {
@@ -59,18 +68,18 @@ const FarmerList = () => {
     const svgData = new XMLSerializer().serializeToString(svg);
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    const img = document.createElement('img');
-    img.setAttribute('src', 'data:image/svg+xml;base64,' + btoa(svgData));
-    img.onload = function () {
+    const img = new Image();
+    img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
       const pngFile = canvas.toDataURL('image/png');
-
-      const downloadLink = document.createElement('a');
-      downloadLink.href = pngFile;
-      downloadLink.download = `${qrData.split(',')[0].split(': ')[1]}.png`;
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
+      const link = document.createElement('a');
+      link.href = pngFile;
+      link.download = `farmer_${qrData.id}.png`;
+      link.click();
     };
   };
 
@@ -79,31 +88,57 @@ const FarmerList = () => {
     printWindow.document.write(`
       <html>
         <head>
-          <title>Print QR Code</title>
-          <style>
-            body {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              height: 100vh;
-              margin: 0;
-            }
-          </style>
-        </head>
-        <body>
-          <div style="text-align: center;">
-            <h3>QR Code</h3>
-            <div id="qrToPrint">${document.getElementById('qrCanvas').outerHTML}</div>
+        <title>Print QR Code</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          }
+          .qr-code-container {
+            display: flex;
+            border: 1px solid #ccc;
+            width: 70%;
+            padding: 10px;
+            justify-content: space-between;
+          }
+          .left-section, .right-section {
+            flex: 1;
+            text-align: center;
+          }
+          .right-section {
+            background-color: #f4f4f4;
+            padding: 20px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="qr-code-container">
+          <div class="left-section">
+            <h3>Farmer QR Code</h3>
+            ${document.getElementById('qrCanvas').outerHTML}
+            <p>ID: ${qrData.formattedShowId || 'N/A'}</p>
           </div>
-          <script>
-            window.onload = function() {
-              window.print();
-              window.onafterprint = function() {
-                window.close();
-              };
+          <div class="right-section">
+            <h2>Farmer Name: ${qrData.firstName} ${qrData.lastName}</h3>
+            <h3>NIC: ${qrData.idNumber || 'N/A'}</h3>
+            <br><br><br><br><br>
+            <p>www.sanotaglobal.com</p>
+          </div>
+        </div>
+        <script>
+          window.onload = function() {
+            window.print();
+            window.onafterprint = function() {
+              window.close();
             };
-          </script>
-        </body>
+          };
+        </script>
+      </body>
       </html>
     `);
   };
@@ -117,7 +152,7 @@ const FarmerList = () => {
     const { name, value } = e.target;
     setSelectedFarmer((prev) => ({ ...prev, [name]: value }));
   };
-
+  
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -231,7 +266,7 @@ const FarmerList = () => {
             <>
               <QRCode
                 id="qrCanvas"
-                value={qrData}
+                value={JSON.stringify(qrData)}
                 size={128}
                 bgColor="#ffffff"
                 fgColor="#000000"
@@ -322,13 +357,18 @@ const FarmerList = () => {
 
               <div className="form-group">
                 <label>Fruit Category:</label>
-                <input
-                  type="text"
+                <select
                   name="fruitCategory"
                   value={selectedFarmer.fruitCategory}
                   onChange={handleInputChange}
                   className="input-field"
-                />
+                >
+                  <option value="Banana">Banana</option>
+                  <option value="Papaya">Papaya</option>
+                  <option value="Mango">Mango</option>
+                  <option value="Guava">Guava</option>
+                  <option value="Pomegranate">Pomegranate</option>
+                </select>
               </div>
 
               <div className="button-group">
