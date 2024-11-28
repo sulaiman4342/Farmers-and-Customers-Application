@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -12,6 +12,12 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); 
   const [errorMessage, setErrorMessage] = useState('');
+
+  const usernameRef = useRef(null);
+
+  useEffect(() => {
+    usernameRef.current?.focus(); // Focus the username input on mount
+  }, []);
 
   const handleLogin = async () => {
     if (!username || !password) {
@@ -91,6 +97,7 @@ function LoginPage() {
               placeholder="Enter Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              ref={usernameRef}
               required        
             />
           </div>
