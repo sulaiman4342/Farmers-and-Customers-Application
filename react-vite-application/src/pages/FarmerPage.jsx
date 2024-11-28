@@ -13,6 +13,9 @@ function FarmerPage() {
 
   const user_id = parseInt(localStorage.getItem('user_id'), 10);
 
+  const searchInputRef = useRef(null);
+
+
   const [farmerData, setFarmerData] = useState({
     fullName: "",
     nicNumber: "",
@@ -40,7 +43,9 @@ function FarmerPage() {
 
   const [isComPortConnected, setIsComPortConnected] = useState(window.serialPort?.isConnected || false);
 
-  const searchInputRef = useRef(null);
+  useEffect(() => {
+    searchInputRef.current?.focus(); // Focus input when page loads
+  }, []);
 
   const connectComPort = async () => {
     try {
@@ -64,6 +69,10 @@ function FarmerPage() {
   };
 
   const bucketWeightRef = useRef("");
+
+  useEffect(() => {
+    searchInputRef.current.focus();
+  }, []);
 
   // Disconnect COM Port on Page Unload
   const disconnectComPort = async () => {
@@ -509,6 +518,7 @@ function FarmerPage() {
         farmerId={farmerId}
         setFarmerId={setFarmerId}
         onSearch={fetchFarmerData}
+        ref={searchInputRef}
       />
 
       {/* Connect Button - Visible only when not connected */}
