@@ -15,8 +15,8 @@ import AboutUs from './pages/AboutUs';
 import AdminUserView from './pages/AdminUserView';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('userRole')));
+  const [username, setUsername] = useState(localStorage.getItem('userRole') || '');
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('userRole');
