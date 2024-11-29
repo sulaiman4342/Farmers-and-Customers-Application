@@ -15,6 +15,8 @@ const FarmerList = () => {
   const [isQrVisible, setIsQrVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFarmer, setSelectedFarmer] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1); // State for pagination
+  const itemsPerPage = 5; // Items per page
   const user_id =  parseInt(localStorage.getItem('user_id'), 10); // Get user ID from local storage
 
   useEffect(() => {
@@ -46,6 +48,20 @@ const FarmerList = () => {
         setLoading(false);
         Swal.fire('Error!', 'Failed to load farmer data', 'error');
       });
+  };
+
+  // Pagination calculations
+  const totalPages = Math.ceil(farmers.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = farmers.slice(indexOfFirstItem, indexOfLastItem);
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) setCurrentPage((prevPage) => prevPage - 1);
   };
 
   const generateQrCode = (farmer) => {
@@ -258,6 +274,16 @@ const FarmerList = () => {
               ))}
             </tbody>
           </table>
+          {/* Pagination Controls */}
+          <div className="pagination-controls">
+            <button onClick={goToPreviousPage} disabled={currentPage === 1}>
+              &laquo;
+            </button>
+            <span>Page {currentPage} of {totalPages}</span>
+            <button onClick={goToNextPage} disabled={currentPage === totalPages}>
+              &raquo;
+            </button>
+          </div>
         </div>
 
         {/* QR Code Section with space allocated */}
