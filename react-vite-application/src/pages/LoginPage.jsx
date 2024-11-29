@@ -84,12 +84,14 @@ function LoginPage() {
   return (
     <div className="login-container">
       <div className="login-form">
-        <img src="/sanota-logo.png" alt="SANOTA Logo" className="logo" />
+        <img src="/sanota-logo.png" alt="SANOTA Logo" className="logo"
+          style={{ width: '350px', height: 'auto', marginBottom: '20px' }}
+        />
         <h2>Smart Weighing System</h2>
         
         <div className="form-group">
-          <div className="input-wrapper">
-            <FontAwesomeIcon icon={faUser} className="input-icon" />
+          <div className="input-wrapper" style={{ width: '60%' }}>
+            <FontAwesomeIcon icon={faUser} className="input-icon" style={{ marginRight: '10px' }} />
             <input
               type="text"
               id="username"
@@ -98,14 +100,15 @@ function LoginPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               ref={usernameRef}
-              required        
+              required
+              style={{ flex: 1, padding: '10px' }}
             />
           </div>
         </div>
         
         <div className="form-group">
-          <div className="input-wrapper">
-            <FontAwesomeIcon icon={faLock} className="input-icon" />
+          <div className="input-wrapper" style={{ width: '60%' }}>
+            <FontAwesomeIcon icon={faLock} className="input-icon" style={{ marginRight: '10px' }}/>
             <input
               type={showPassword ? 'text' : 'password'}
               id="password"
@@ -114,8 +117,12 @@ function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              style={{ flex: 1, padding: '10px' }}
             />
-            <span className="password-toggle-icon" onClick={togglePasswordVisibility}>
+            <span className="password-toggle-icon" 
+            onClick={togglePasswordVisibility}
+            style={{ marginLeft: '10px', cursor: 'pointer' }}
+            >
               <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
             </span>
           </div>
