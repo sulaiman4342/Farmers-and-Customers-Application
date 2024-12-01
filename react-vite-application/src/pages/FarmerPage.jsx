@@ -14,7 +14,7 @@ function FarmerPage() {
   const user_id = parseInt(localStorage.getItem('user_id'), 10);
 
   const searchInputRef = useRef(null);
-
+  const bucketWeightRef = useRef("");
 
   const [farmerData, setFarmerData] = useState({
     fullName: "",
@@ -48,6 +48,11 @@ function FarmerPage() {
   }, []);
 
   const connectComPort = async () => {
+    if (!("serial" in navigator)) {
+      Swal.fire("Error", "Web Serial API not supported in this browser.", "error");
+      return;
+    }
+
     try {
       if (window.serialPort?.port) {
         Swal.fire("Info", "COM Port is already connected.", "info");
@@ -57,18 +62,18 @@ function FarmerPage() {
 
       const port = await navigator.serial.requestPort();
       await port.open({ baudRate: 9600 });
+
       window.serialPort = { port, isConnected: true };
       setIsComPortConnected(true);
       localStorage.setItem("isComPortConnected", true);
+
       listenToComPort(port);
       Swal.fire("Success", "COM Port connected successfully!", "success");
     } catch (error) {
       console.error("Error connecting to COM port:", error);
       Swal.fire("Error", "Failed to connect to COM port. Please try again.", "error");
     }
-  };
-
-  const bucketWeightRef = useRef("");
+  };  
 
   useEffect(() => {
     searchInputRef.current.focus();
