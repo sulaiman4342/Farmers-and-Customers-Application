@@ -73,7 +73,7 @@ function FarmerPage() {
       console.error("Error connecting to COM port:", error);
       Swal.fire("Error", "Failed to connect to COM port. Please try again.", "error");
     }
-  };  
+  };
 
   useEffect(() => {
     searchInputRef.current.focus();
@@ -528,9 +528,11 @@ function FarmerPage() {
 
       {/* Connect Button - Visible only when not connected */}
       {!isComPortConnected && (
-        <button onClick={connectComPort} className="connect-button">
-          Connect COM Port
-        </button>
+        <div className="connect-button-container">
+          <button onClick={connectComPort} className="connect-button">
+            Connect COM Port
+          </button>
+        </div>
       )}
 
       {/* Forms Container */}
