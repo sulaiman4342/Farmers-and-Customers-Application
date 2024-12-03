@@ -21,6 +21,7 @@
     margin-top: 15px; 
     margin-left: auto;
     margin-right:20px;
+    margin-bottom:15px;
   }
   
   .search-bar-customer-page input {
@@ -29,6 +30,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     margin-right: 10px;
+    
   }
   
   .search-bar-customer-page button {
