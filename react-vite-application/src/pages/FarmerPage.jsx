@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import FarmerLeftForm from "../components/FarmerLeftForm";
 import FarmerRightForm from "../components/FarmerRightForm";
 import FarmerTable from "../components/FarmerTable";
-import SearchBar from "../components/FarmerSearchBar";
+import SearchBar from "../components/SearchBar";
 import Swal from "sweetalert2";
 import axios from "axios";
 import "./FarmerPage.css";
@@ -520,9 +520,11 @@ function FarmerPage() {
       <Header />
 
       <SearchBar 
-        farmerId={farmerId}
-        setFarmerId={setFarmerId}
+        value={farmerId}
+        setValue={setFarmerId}
         onSearch={fetchFarmerData}
+        placeholder="Scan Your QR code or Enter Farmer ID..."
+        className="farmer-page-search-bar"
         ref={searchInputRef}
       />
 

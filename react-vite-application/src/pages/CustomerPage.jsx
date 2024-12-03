@@ -1,7 +1,7 @@
 // File: src/pages/CustomerPage.jsx
 import React, { useState, useEffect, useRef } from "react";
 import Header from "../components/Header";
-import CustomerSearchBar from "../components/CustomerSearchBar";
+import SearchBar from "../components/SearchBar";
 import CustomerLeftForm from "../components/CustomerLeftForm";
 import CustomerRightForm from "../components/CustomerRightForm";
 import "./CustomerPage.css";
@@ -477,10 +477,12 @@ function CustomerPage() {
   return (
     <div className="customer-page-container">
       <Header />
-      <CustomerSearchBar
-        customerId={customerId}
-        setCustomerId={setCustomerId}
-        handleCustomerSearch={handleCustomerSearch}
+      <SearchBar
+        value={customerId}
+        setValue={setCustomerId}
+        onSearch={handleCustomerSearch}
+        placeholder="Scan Your QR code or Enter Customer ID..."
+        className="customer-page-search-bar"
         ref = {searchInputRef}
       />
       <div className="forms-container">
