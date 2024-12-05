@@ -38,15 +38,7 @@ function App() {
             <Route path="/" element={<LoginPage />} />
             <Route path="/aboutUs" element={<AboutUs />} />
 
-            {/* Protected Routes
-            <Route
-              path="/dashboard"
-              element={isLoggedIn ? <Dashboard /> : <Navigate to="/" />}
-            /> */}
-            {/* <Route
-              path="/adminUserview"
-              element={isLoggedIn && userRole === 'ADMIN' ? <AdminUserView /> : <Navigate to="/" />}
-            /> */}
+            {/* Protected Routes */}
             <Route
               path="/adminUserview"
               element={
