@@ -15,14 +15,19 @@ import AboutUs from './pages/AboutUs';
 import AdminUserView from './pages/AdminUserView';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('userRole')));
-  const [username, setUsername] = useState(localStorage.getItem('userRole') || '');
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
+  const [userRole, setUserRole] = useState(localStorage.getItem('userRole') || '');
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem('userRole');
-    setUsername(storedUsername || '');
-    setIsLoggedIn(Boolean(storedUsername));
+    const storedRole = localStorage.getItem('userRole');
+    setUserRole(storedRole || '');
+    setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
   }, []);
+
+  // Role-based route protection logic
+  const ProtectedRoute = ({ role, children }) => {
+    return isLoggedIn && userRole === role ? children : <Navigate to="/" />;
+  };
 
   return (
     <Router>
@@ -33,19 +38,35 @@ function App() {
             <Route path="/" element={<LoginPage />} />
             <Route path="/aboutUs" element={<AboutUs />} />
 
-            {/* Protected Routes */}
+            {/* Protected Routes
             <Route
               path="/dashboard"
               element={isLoggedIn ? <Dashboard /> : <Navigate to="/" />}
-            />
+            /> */}
+            {/* <Route
+              path="/adminUserview"
+              element={isLoggedIn && userRole === 'ADMIN' ? <AdminUserView /> : <Navigate to="/" />}
+            /> */}
             <Route
               path="/adminUserview"
-              element={isLoggedIn && username === 'Administrator' ? <AdminUserView /> : <Navigate to="/" />}
+              element={
+                <ProtectedRoute role="ADMIN">
+                  <AdminUserView />
+                </ProtectedRoute>
+              }
             />
+
+            <Route 
+              path="/dashboard/:user_id" 
+              element={isLoggedIn ? <Dashboard /> : <Navigate to="/" />} 
+            />
+
             <Route
               path="/registration"
               element={isLoggedIn ? <RegistrationPage /> : <Navigate to="/" />}
             />
+
+
             <Route
               path="/customer-list"
               element={isLoggedIn ? <CustomerListPage /> : <Navigate to="/" />}

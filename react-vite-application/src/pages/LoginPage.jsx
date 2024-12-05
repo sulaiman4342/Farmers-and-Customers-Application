@@ -19,6 +19,12 @@ function LoginPage() {
     usernameRef.current?.focus(); // Focus the username input on mount
   }, []);
 
+  // Define role-based routes
+  const roleRoutes = {
+    ADMIN: '/adminUserView',
+    USER: '/dashboard', // Example role mapping for non-admin users
+  };
+
   const handleLogin = async () => {
     if (!username || !password) {
       setErrorMessage('Please enter both username and password');
@@ -39,6 +45,8 @@ function LoginPage() {
         password,
       });
 
+      console.log('Response:', response);
+
       if (response.data.status === 'Login successful') {
         Swal.fire({
           icon: 'success',
@@ -47,18 +55,18 @@ function LoginPage() {
           showConfirmButton: false,
           timer: 1500,
         });
-        
-        localStorage.setItem('userRole', response.data.role);
-        localStorage.setItem('user_id', response.data.user_id);
 
-        // navigate based on user role
-        if(username === 'Administrator'){
-          navigate('/adminUserview');
-        } else {
-          navigate('/dashboard');
-        }
-        
-        setErrorMessage(''); // Clear any previous error messages
+        const userRole = response.data.role;
+        localStorage.setItem('userRole', userRole);
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('user_id', response.data.user_id);  
+
+        console.log(`Current user role is , ${userRole}`);
+
+        // Navigate based on role
+        const route = roleRoutes[userRole] || '/'; // Default to home if role not found
+        setErrorMessage('');
+        navigate(route);
       } else {
         Swal.fire({
           icon: 'error',
