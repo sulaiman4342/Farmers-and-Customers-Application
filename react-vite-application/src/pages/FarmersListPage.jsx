@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQrcode, faPenToSquare, faDownload, faPrint, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './FarmersListPage.css';
@@ -9,7 +9,7 @@ import axios from 'axios';
 
 const FarmerList = () => {
   const [farmers, setFarmers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [qrData, setQrData] = useState([]);
   const [isQrVisible, setIsQrVisible] = useState(false);
@@ -21,6 +21,7 @@ const FarmerList = () => {
 
   useEffect(() => {
     fetchFarmers();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Fetch farmer data from backend
@@ -41,20 +42,20 @@ const FarmerList = () => {
           formattedShowId: farmer.formattedShowId,
         }));
         setFarmers(filteredData);
-        setLoading(false);
+        // setLoading(false);
       })
       .catch((error) => {
         console.error('Error fetching farmer data:', error);
-        setLoading(false);
+        // setLoading(false);
         Swal.fire('Error!', 'Failed to load farmer data', 'error');
       });
   };
 
   // Pagination calculations
   const totalPages = Math.ceil(farmers.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = farmers.slice(indexOfFirstItem, indexOfLastItem);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = farmers.slice(indexOfFirstItem, indexOfLastItem);
 
   const goToNextPage = () => {
     if (currentPage < totalPages) setCurrentPage((prevPage) => prevPage + 1);
