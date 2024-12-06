@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -19,11 +19,6 @@ function LoginPage() {
     usernameRef.current?.focus(); // Focus the username input on mount
   }, []);
 
-  // Define role-based routes
-  // const roleRoutes = {
-  //   ADMIN: '/adminUserView',
-  //   USER: '/dashboard', // Example role mapping for non-admin users
-  // };
 
   const handleLogin = async () => {
     if (!username || !password) {
@@ -76,6 +71,7 @@ function LoginPage() {
         setErrorMessage('Incorrect username or password');
       }
     } catch (error) {
+      console.error('Login failed:', error); // Log the error for debugging
       Swal.fire({
         icon: 'error',
         title: 'Login Failed',
