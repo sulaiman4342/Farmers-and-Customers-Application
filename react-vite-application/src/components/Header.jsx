@@ -1,5 +1,5 @@
 // Header.jsx
-import React, { useEffect, useState, useRef } from 'react';
+import  { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -14,6 +14,9 @@ const Header = () => {
   const toggleNav = () => {
     setIsNavVisible(!isNavVisible);
   };
+
+  const userRole = localStorage.getItem('userRole'); // Fetch user role from localStorage
+  const user_id = localStorage.getItem('user_id'); // Fetch user_id from localStorage
 
   // Close the navbar when clicking outside of it
   useEffect(() => {
@@ -33,9 +36,12 @@ const Header = () => {
           <FontAwesomeIcon icon={isNavVisible ? faTimes : faBars} />
         </button>
         <ul className={`nav-list ${isNavVisible ? 'nav-visible' : ''}`}>
-          <li className={location.pathname === '/dashboard' ? 'active' : ''}>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
+          {/* Show Dashboard link with dynamic user_id */}
+          {userRole === 'USER' && (
+            <li className={location.pathname.startsWith(`/dashboard/${user_id}`) ? 'active' : ''}>
+              <Link to={`/dashboard/${user_id}`}>Dashboard</Link>
+            </li>
+          )}
           <li className={
             location.pathname === '/registration' ||
             location.pathname === '/farmer-registration' ||
