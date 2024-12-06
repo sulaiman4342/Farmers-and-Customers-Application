@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect  } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BarChart from '../components/BarChart';
 import LineChart from '../components/LineChart';
 import './DashboardPage.css';
 import Header from '../components/Header';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { notification } from 'antd';
 
 const Dashboard = () => {
@@ -17,7 +20,10 @@ const Dashboard = () => {
   const [farmerPage, setFarmerPage] = useState(0); // For farmers pagination
   const [salesPage, setSalesPage] = useState(0); // For sales pagination
 
-  const user_id = parseInt(localStorage.getItem('user_id'), 10);
+  const { user_id } = useParams();
+  const parsedUserId = parseInt(user_id, 10);
+  const navigate = useNavigate(); // For navigation
+
 
   const farmerRecordsPerPage = 5; // Separate limit for farmers (BarChart)
   const salesRecordsPerPage = 9; // Separate limit for sales (LineChart)
@@ -25,11 +31,15 @@ const Dashboard = () => {
   const [farmers, setFarmers] = useState([]);
   const [sales, setSales] = useState([]);
 
+  // Fetch user role
+  const userRole = localStorage.getItem('userRole'); // Check user role from localStorage
+  const isAdmin = userRole === 'ADMIN'; // Boolean for admin status
+
   //Fetch farmers data from API
   useEffect(() => {
     axios.get('http://64.227.152.179:8080/weighingSystem-1/data/all')
       .then(response => {
-        const filteredData = response.data.filter(item => item.supplier.user_id === user_id);
+        const filteredData = response.data.filter(item => item.supplier.user_id === parsedUserId);
         const formattedFarmers = filteredData.map(item => ({
           id: item.stock_id,
           farmerName: `${item.supplier.firstname} ${item.supplier.lastname}`,
@@ -55,13 +65,13 @@ const Dashboard = () => {
           description: 'Error loading farmers data from the server.',
         });
       });
-  }, [user_id]);
+  }, [parsedUserId]);
   
   // Fetch sales data from API
   useEffect(() => {
     axios.get('http://64.227.152.179:8080/weighingSystem-1/stocksell/all')
       .then(response => {
-        const filteredSalesData = response.data.filter(item => item.seller.users.id === user_id);
+        const filteredSalesData = response.data.filter(item => item.seller.users.id === parsedUserId);
         const formattedSales = filteredSalesData.map(item => ({
           id: item.id,
           customerName: item.sellername,
@@ -83,7 +93,7 @@ const Dashboard = () => {
           description: 'Error loading sales data from the server.',
         });
       });
-  }, [user_id]) 
+  }, [parsedUserId])
 
   const filteredFarmers = farmers.filter((farmer) => {
     const matchesFarmer = selectedFarmer ? farmer.farmerName === selectedFarmer : true;
@@ -112,10 +122,7 @@ const Dashboard = () => {
   const toggleTableVisibility = () => setIsTableVisible(!isTableVisible); //Toggle table visibility
   const toggleSaleTableVisibility = () => setIsSaleTableVisible(!isSaleTableVisible); //Toggle Data Table visibility
 
-  // const getPaginatedFarmers = () => {
-  //   const startIndex = currentPage * recordsPerPage;
-  //   return filteredFarmers.slice(startIndex, startIndex + recordsPerPage);
-  // };
+  
   // Paginate farmers and sales data
   const getPaginatedData = (data, page, limit) => {
     const startIndex = page * limit;
@@ -135,9 +142,34 @@ const Dashboard = () => {
   const paginatedFarmers = getPaginatedData(filteredFarmers, farmerPage, farmerRecordsPerPage);
   const paginatedSales = getPaginatedData(filteredSales, salesPage, salesRecordsPerPage);
 
+  const handleLogout = () => {
+    localStorage.clear(); // Clear all local storage items
+    navigate('/'); // Redirect to login page
+  };
+
+  const handleBack = () => {
+    navigate('/adminUserView'); // Redirect back to admin user view
+  };
+
   return (
     <div className="dashboardPage-container">
-      <Header />
+      {/* Display Header for USERS only */}
+      {!isAdmin && <Header />}
+
+      {/* Display Back and Logout Buttons for ADMINS */}
+      {isAdmin && (
+        <div className="admin-controls">
+          <button onClick={handleBack} className="admin-back-button">
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </button>
+          <button onClick={handleLogout} className="admin-logout-button">
+            Logout
+          </button>
+        </div>
+      )}
+
+      {isAdmin && <h2 style={{ margin: '35px auto' }}>Admin View: User Dashboard for ID {user_id}</h2>}
+
       <div className="filter-row">
         <div className="dropdown-container">
           <select id="farmer-select" value={selectedFarmer} onChange={handleFarmerSelect}>
