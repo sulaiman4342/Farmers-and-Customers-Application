@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegistrationPage from './pages/RegistrationPage';
@@ -13,6 +13,8 @@ import CustomerPage from './pages/CustomerPage';
 import Footer from './components/Footer';
 import AboutUs from './pages/AboutUs';
 import AdminUserView from './pages/AdminUserView';
+import PropTypes from 'prop-types';
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
@@ -27,6 +29,11 @@ function App() {
   // Role-based route protection logic
   const ProtectedRoute = ({ role, children }) => {
     return isLoggedIn && userRole === role ? children : <Navigate to="/" />;
+  };
+
+  ProtectedRoute.propTypes = {
+    role: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
   };
 
   return (
@@ -57,7 +64,6 @@ function App() {
               path="/registration"
               element={isLoggedIn ? <RegistrationPage /> : <Navigate to="/" />}
             />
-
 
             <Route
               path="/customer-list"
