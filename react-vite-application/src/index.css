@@ -25,7 +25,7 @@ a:hover {
 
 body { 
   margin: 0;
-  background: linear-gradient(135deg, #024075, #0293d6); 
+  background: linear-gradient(135deg, #22959d, #85d6dc); /* Lighter gradient */
   /* place-items: center;
   min-height: 100vh; */
 } 
