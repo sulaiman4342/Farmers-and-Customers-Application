@@ -1,5 +1,5 @@
 // File: src/pages/FarmerPage.jsx
-import React, { useState, useEffect, useRef  } from "react";
+import { useState, useEffect, useRef  } from "react";
 import Header from "../components/Header";
 import FarmerLeftForm from "../components/FarmerLeftForm";
 import FarmerRightForm from "../components/FarmerRightForm";
@@ -222,6 +222,7 @@ function FarmerPage() {
                     throw new Error("No Farmer Found!");
                 }
             } catch (error) {
+              console.log("Error", error)
                 Swal.close();
                 Swal.fire({
                     title: 'Error!',

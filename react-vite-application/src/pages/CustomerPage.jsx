@@ -1,5 +1,5 @@
 // File: src/pages/CustomerPage.jsx
-import React, { useState, useEffect, useRef } from "react";
+import  { useState, useEffect, useRef } from "react";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import CustomerLeftForm from "../components/CustomerLeftForm";
@@ -83,6 +83,7 @@ function CustomerPage() {
                     throw new Error("No Customer Found!");
                 }
             } catch (error) {
+                console.log("error",error)
                 // Handle JSON parsing errors or unmatched IDs
                 Swal.close();
                 Swal.fire({
