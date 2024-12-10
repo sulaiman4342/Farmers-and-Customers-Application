@@ -14,7 +14,7 @@ const Dashboard = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedCustomer, setSelectedCustomer] = useState('');
-  const [selectedSalesDate, setSeletedSalesDate] = useState('');
+  const [selectedSalesDate, setSelectedSalesDate] = useState('');
   const [isTableVisible, setIsTableVisible] = useState(false);
   const [isSaleTableVisible, setIsSaleTableVisible] = useState(false);
   const [farmerPage, setFarmerPage] = useState(0); // For farmers pagination
@@ -117,7 +117,7 @@ const Dashboard = () => {
   const handleDateChange = (event) => setSelectedDate(event.target.value);
 
   const handleCustomerSelect = (event) => setSelectedCustomer(event.target.value);
-  const handleDateForSaleChange = (event) => setSeletedSalesDate(event.target.value);
+  const handleDateForSaleChange = (event) => setSelectedSalesDate(event.target.value);
 
   const toggleTableVisibility = () => setIsTableVisible(!isTableVisible); //Toggle table visibility
   const toggleSaleTableVisibility = () => setIsSaleTableVisible(!isSaleTableVisible); //Toggle Data Table visibility
@@ -254,7 +254,7 @@ const Dashboard = () => {
             <div className="pagination-controls">
               <button onClick={() => prevPage(setFarmerPage)} disabled={farmerPage === 0}> &larr; </button>
               <span> {farmerPage + 1} </span>
-              <button onClick={() => nextPage(setFarmerPage, filteredFarmers)} disabled={(farmerPage + 1) * farmerRecordsPerPage >= filteredFarmers.length}> &rarr;</button>
+              <button onClick={() => nextPage(setFarmerPage, filteredFarmers, farmerRecordsPerPage)} disabled={(farmerPage + 1) * farmerRecordsPerPage >= filteredFarmers.length}> &rarr;</button>
             </div>
           </div>          
         </div>
@@ -325,7 +325,7 @@ const Dashboard = () => {
           <div className="pagination-controls">
               <button onClick={() => prevPage(setSalesPage)} disabled={salesPage === 0}> &larr; </button>
               <span> {salesPage + 1} </span>
-              <button onClick={() => nextPage(setSalesPage, filteredSales)} disabled={(salesPage + 1) * salesRecordsPerPage >= filteredSales.length}> &rarr;</button>
+              <button onClick={() => nextPage(setSalesPage, filteredSales, salesRecordsPerPage)} disabled={(salesPage + 1) * salesRecordsPerPage >= filteredSales.length}> &rarr;</button>
             </div>
         </div>
       ) : (
