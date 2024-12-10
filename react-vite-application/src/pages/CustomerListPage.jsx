@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQrcode, faPenToSquare, faDownload, faPrint, faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +9,7 @@ import './CustomerListPage.css';
 
 function CustomerList( ) {
   const [customers, setCustomers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [qrData, setQrData] = useState({});
   const [isQrVisible, setIsQrVisible] = useState(false);
@@ -37,20 +37,20 @@ function CustomerList( ) {
           formattedShowId: seller.formattedShowId
         }));
         setCustomers(filteredData);
-        setLoading(false);
+        
       })
       .catch(error => {
         console.error('Error fetching  customer data:', error);
-        setLoading(false);
+        
         Swal.fire('Error!', 'Error loading customer data', 'error');
       });
   };
 
   // Pagination calculations
   const totalPages = Math.ceil(customers.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = customers.slice(indexOfFirstItem, indexOfLastItem);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = customers.slice(indexOfFirstItem, indexOfLastItem);
 
   const goToNextPage = () => {
     if (currentPage < totalPages) setCurrentPage((prevPage) => prevPage + 1);

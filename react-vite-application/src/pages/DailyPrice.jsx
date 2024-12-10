@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import axios from 'axios';
 import {notification } from 'antd';
 import Header from '../components/Header';
@@ -158,7 +158,7 @@ function PriceAdd() {
       <div className="priceadd-container">
         <div className="priceadd-box">
           <div className="priceadd-header">
-            <FontAwesomeIcon icon={faSackDollar} style={{color: "#B197FC",}} className="form-icon-dolar" size="3x" />
+            <FontAwesomeIcon icon={faSackDollar} style={{color: "#007bff",}} className="form-icon-dolar" size="3x" />
             <h2>Daily Prices</h2>
           </div>
           <form onSubmit={handleSubmit}>
