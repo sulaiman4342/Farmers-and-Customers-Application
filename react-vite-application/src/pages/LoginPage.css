@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 94vh;
-    background: linear-gradient(135deg, #024075, #0293d6); /* Blue gradient background */
+    /* background: linear-gradient(135deg, #024075, #0293d6); Blue gradient background */
     background-size: cover;
     background-position: center;
   }
@@ -87,9 +87,19 @@
   .input-wrapper {
     display: flex;
     align-items: center;
+    position: relative; /* Allow positioning of toggle icon */
+    width: 60%;
   }
-  
-  
+
+  .password-toggle-icon {
+    position: absolute;
+    right: 10px; /* Adjust distance from the right edge */
+    cursor: pointer;
+    color: #333; /* Optional: style the icon */
+    font-size: 16px; /* Match icon size with input font size */
+    z-index: 1; /* Ensure it appears above the input field */
+  }
+    
   .input-icon {
     margin-right: 8px; 
   }
