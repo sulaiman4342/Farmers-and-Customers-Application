@@ -42,7 +42,7 @@ function App() {
         <main>
           <Routes>
             {/* Public Routes */}
-            <Route path="/" element={<LoginPage />} />
+            <Route path="/" element={<LoginPage setIsLoggedIn={setIsLoggedIn} setUserRole={setUserRole}/>} />
             <Route path="/aboutUs" element={<AboutUs />} />
 
             {/* Protected Routes */}

@@ -2,11 +2,12 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import './LoginPage.css';
 
-function LoginPage() {
+function LoginPage({ setIsLoggedIn, setUserRole}) {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -57,6 +58,10 @@ function LoginPage() {
         localStorage.setItem('user_id', userId);  
 
         console.log(`Current user role is , ${userRole}`);
+
+        // Update state in App.jsx
+        setIsLoggedIn(true);
+        setUserRole(userRole);
 
         // Navigate based on role
         const route = userRole === 'ADMIN' ? '/adminUserView' : `/dashboard/${userId}`;
@@ -138,5 +143,10 @@ function LoginPage() {
     </div>
   );
 }
+
+LoginPage.propTypes = {
+  setIsLoggedIn: PropTypes.func.isRequired,
+  setUserRole: PropTypes.func.isRequired,
+};
 
 export default LoginPage;
