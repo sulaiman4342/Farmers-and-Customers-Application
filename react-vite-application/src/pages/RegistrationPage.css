@@ -17,7 +17,7 @@
   }
 
   .regis-button {
-    background-color: purple;
+    background-color: #007bff;
     color: white;
     padding: 20px;
     border: none;
@@ -28,5 +28,5 @@
   }
   
   .reg-button:hover {
-    background-color: #6a0dad; /* Darker purple */
+    background-color: #0056b3; /* Darker blue */
   }

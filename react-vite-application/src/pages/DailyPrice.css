@@ -52,7 +52,7 @@
   }
   
   .priceadd-box button {
-    background-color: #a611eb;
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
@@ -71,7 +71,7 @@
   }
   
   .priceadd-box button:hover {
-    background-color: #69017e;
+    background-color: #0056b3;
   }
 
   .priceadd-header{

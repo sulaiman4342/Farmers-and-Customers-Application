@@ -35,7 +35,7 @@
 /* Icon styling */
 .form-icon {
   margin-right: 15px;
-  color: #6a0dad;
+  color: #007bff;
   
 }
 
@@ -78,7 +78,7 @@ input[type="text"] {
 
 /* Register button styling */
 .reg-view-button {
-  background-color: #6a0dad;
+  background-color: #007bff;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -92,7 +92,7 @@ input[type="text"] {
 
 /* Hover effect */
 .reg-view-button:hover {
-  background-color: #5e0da1; 
+  background-color: #0056b3; 
 }
 
 /* Making sure that the layout works on smaller screens */
