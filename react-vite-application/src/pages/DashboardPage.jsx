@@ -30,10 +30,28 @@ const Dashboard = () => {
   
   const [farmers, setFarmers] = useState([]);
   const [sales, setSales] = useState([]);
-
+  const [username, setUsername] = useState('');
+ 
   // Fetch user role
   const userRole = localStorage.getItem('userRole'); // Check user role from localStorage
   const isAdmin = userRole === 'ADMIN'; // Boolean for admin status
+
+  //Fetch username when the components mounts
+  useEffect(() =>{
+    const fetchUsername = async () => {
+      try {
+        const response = await fetch(`http://64.227.152.179:8080/weighingSystem-1/user/${parsedUserId}`);
+        if (!response.ok){
+          throw new Error('Failed to fetch username');
+        }
+        const data = await response.json();
+        setUsername(data.username);
+      } catch (error) {
+        console.error('Error fetching username:', error);
+      }
+    };
+    fetchUsername();
+  },[parsedUserId]);
 
   //Fetch farmers data from API
   useEffect(() => {
@@ -168,7 +186,7 @@ const Dashboard = () => {
         </div>
       )}
 
-      {isAdmin && <h2 style={{ margin: '35px auto' }}>Admin View: User Dashboard for ID {user_id}</h2>}
+      {isAdmin && <h2 style={{ margin: '35px auto' }}>Admin View: User Dashboard for  {username}</h2>}
 
       <div className="filter-row">
         <div className="dropdown-container">
