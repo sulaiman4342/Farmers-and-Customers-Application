@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 
 const FarmerRegistrationForm = () => {
     const user_id = parseInt(localStorage.getItem('user_id'), 10);
-    const username = localStorage.getItem('userRole');
+    // const username = localStorage.getItem('userRole');
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -175,7 +175,7 @@ const FarmerRegistrationForm = () => {
                     <div className="form-group">
                         <label htmlFor="fruitCategory">Fruit Category:</label>
                         <div className="radio-group">
-                            {username === "Jaffna-Tomato" ? (
+                            {user_id === 6 ? (
                                 <>
                                     <label>
                                         <input
