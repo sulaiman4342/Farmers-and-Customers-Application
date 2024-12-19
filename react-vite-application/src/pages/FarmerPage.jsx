@@ -106,12 +106,18 @@ function FarmerPage() {
         if (done) break;
   
         if (value) {
-          // Trim and process the received data
-          const trimmedValue = value.trim();
-          if (bucketWeightRef.current !== trimmedValue) {
-            bucketWeightRef.current = trimmedValue;
-            setBucketWeight(trimmedValue);
-          }
+          // Extract weight data from the received string
+          const lines = value.trim().split('\n');
+          lines.forEach((line) => {
+            const weightMatch = line.match(/Wt:\s*([+-]?\d+\.\d+)/);
+            if (weightMatch) {
+              const weight = weightMatch[1];
+              if (bucketWeightRef.current !== weight) {
+                bucketWeightRef.current = weight;
+                setBucketWeight(weight);
+              }
+            }
+          });
         }
       }
     } catch (error) {
@@ -125,6 +131,7 @@ function FarmerPage() {
       reader.releaseLock();
     }
   };
+  
   
   useEffect(() => {
     const handleUnload = () => {
