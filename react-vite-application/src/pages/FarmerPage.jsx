@@ -101,17 +101,27 @@ function FarmerPage() {
   
     try {
       while (true) {
-        // Read data from the COM port
         const { value, done } = await reader.read();
         if (done) break;
   
         if (value) {
-          // Extract weight data from the received string
           const lines = value.trim().split('\n');
           lines.forEach((line) => {
-            const weightMatch = line.match(/Wt:\s*([+-]?\d+\.\d+)/);
-            if (weightMatch) {
-              const weight = weightMatch[1];
+            // First attempt: Match "Wt:"
+            const weightMatch1 = line.match(/Wt:\s*([+-]?\d+\.\d+)/);
+            if (weightMatch1) {
+              const weight = weightMatch1[1];
+              if (bucketWeightRef.current !== weight) {
+                bucketWeightRef.current = weight;
+                setBucketWeight(weight);
+              }
+              return; // Exit if matched
+            }
+  
+            // Second attempt: Match generic weight with "Kg"
+            const weightMatch2 = line.match(/([+-]?\d+\.\d+)\s*Kg/);
+            if (weightMatch2) {
+              const weight = weightMatch2[1];
               if (bucketWeightRef.current !== weight) {
                 bucketWeightRef.current = weight;
                 setBucketWeight(weight);
@@ -122,12 +132,9 @@ function FarmerPage() {
       }
     } catch (error) {
       console.error("Error reading from COM port:", error);
-  
-      // Disconnect if an error occurs while reading data
       disconnectComPort();
       Swal.fire("Error", "COM port disconnected due to an error.", "error");
     } finally {
-      // Release the lock on the reader
       reader.releaseLock();
     }
   };
